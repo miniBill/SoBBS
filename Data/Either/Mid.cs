@@ -12,6 +12,10 @@ namespace Sobbs.Config.Windows {
 		public Mid(B value) {
 			Value = value;
 		}
+
+		public T Either<T>(Func<A, T> fLeft, Func<B, T> fMid, Func<C, T> fRight) {
+			return fMid.Invoke(Value);
+		}
 	}
 
 }

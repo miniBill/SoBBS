@@ -19,6 +19,7 @@ namespace Sobbs.Config.Windows {
 			get;
 			private set;
 		}
+
 		public Size(int value) {
 			Value=new Left<int,Percent,Star>(value);
 		}
@@ -44,6 +45,10 @@ namespace Sobbs.Config.Windows {
 
 		private static Size Wrap(int value){
 			return new Size(value);
+		}
+
+		public T Either<T>(Func<int, T> fLeft, Func<Percent, T> fMid, Func<Star, T> fRight) {
+			return Value.Either(fLeft,fMid,fRight);
 		}
 	}
 }

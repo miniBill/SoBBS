@@ -4,7 +4,7 @@ using Sobbs.Data.List;
 
 namespace Sobbs.Config.Windows {
 	public struct Percent {
-		readonly double Value;
+		public readonly double Value;
 
 		public Percent(double value) {
 			Value = value;
