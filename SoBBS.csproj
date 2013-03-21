@@ -40,14 +40,28 @@
     <Compile Include="Config\Windows\Config.cs" />
     <Compile Include="Config\Windows\Parser.cs" />
     <Compile Include="Config\Ini\Parser.cs" />
-    <Compile Include="Config\Ini\IniTree.cs" />
     <Compile Include="Config\Ini\IniSection.cs" />
     <Compile Include="Config\Ini\ParserException.cs" />
+    <Compile Include="Config\Windows\WindowConfig.cs" />
+    <Compile Include="Data\List\IImmutableList.cs" />
+    <Compile Include="Data\List\ImmutableList.cs" />
+    <Compile Include="Data\List\Operations.cs" />
+    <Compile Include="Config\Windows\Size.cs" />
+    <Compile Include="Config\Windows\Percent.cs" />
+    <Compile Include="Config\Windows\Star.cs" />
+    <Compile Include="Config\Windows\SizeParseException.cs" />
+    <Compile Include="Data\Either\IEither.cs" />
+    <Compile Include="Data\Either\Left.cs" />
+    <Compile Include="Data\Either\Mid.cs" />
+    <Compile Include="Data\Either\Right.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Config\" />
     <Folder Include="Config\Windows\" />
     <Folder Include="Config\Ini\" />
+    <Folder Include="Data\" />
+    <Folder Include="Data\List\" />
+    <Folder Include="Data\Either\" />
   </ItemGroup>
 </Project>
