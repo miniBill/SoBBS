@@ -34,7 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="mono-curses">
-      <HintPath>..\..\..\..\usr\lib\mono\gac\mono-curses\1.0.0.0__b59061902d74f38c\mono-curses.dll</HintPath>
+      <HintPath>..\mono-curses\mono-curses.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

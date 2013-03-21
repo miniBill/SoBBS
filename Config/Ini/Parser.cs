@@ -43,6 +43,14 @@ namespace Sobbs.Config.Ini {
 					}
 				}
 			}
+			if(!values.IsEmpty){
+				if(sectionName == null)
+					throw new ParserException(-1, "Something is wrong in your config file", "???");
+				else
+					sections = sections.Add(new IniSection(sectionName, values));
+			}
+			else
+				throw new ParserException(-1, "Something is wrong in your config file, is it empty?", "???");
 			return sections;
 		}
 	}
