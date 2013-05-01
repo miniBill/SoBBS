@@ -31,11 +31,11 @@
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mono-curses">
-      <HintPath>.\mono-curses.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="mono-curses">
+      <HintPath>mono-curses.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Either\IEither.cs" />
@@ -62,7 +62,12 @@
     <Compile Include="Data\ThreeEither\ThreeRight.cs" />
     <Compile Include="Config\Windows\WindowsConfig.cs" />
     <Compile Include="Functional\FuncExtensions.cs" />
+    <Compile Include="Widgets\SoFrame.cs" />
+    <Compile Include="Widgets\KeyPressedEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Widgets\" />
+  </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@ using Mono.Terminal;
 using Sobbs.Config.Sizes;
 using Sobbs.Config.Windows;
 using Sobbs.Functional;
+using Sobbs.Widgets;
 
 namespace Sobbs
 {
@@ -23,9 +24,9 @@ namespace Sobbs
 
                 var container = new Frame(0, 0, Application.Cols, Application.Lines, "SoBBS");
 
-                var zoneConfig = conf["zones"];
-                var threadsConfig = conf["threads"];
-                var messagesConfig = conf["messages"];
+                var zoneConfig = conf ["zones"];
+                var threadsConfig = conf ["threads"];
+                var messagesConfig = conf ["messages"];
 
                 var zones = CreateContainer(zoneConfig, "Zones", Application.Cols - 2, Application.Lines - 2);
                 container.Add(zones);
@@ -33,6 +34,16 @@ namespace Sobbs
                 container.Add(threads);
                 var messages = CreateContainer(messagesConfig, "Messages", Application.Cols - 2, Application.Lines - 2);
                 container.Add(messages);
+
+                int i = 0;
+
+                Label debug = new Label(0, -1, i.ToString());
+                messages.Add(debug);
+
+                Application.Iteration += (sender, e) => {
+                    i++;
+                    debug.Text = i.ToString();
+                };
 
                 Application.Run(container);
             }
@@ -71,7 +82,7 @@ namespace Sobbs
             }
         }
 
-        private static Frame CreateContainer(WindowConfig conf, string name, int width, int height)
+        private static SoFrame CreateContainer(WindowConfig conf, string name, int width, int height)
         {
             Func<int, int> id = FuncExtensions.Identity<int>();
             Func<Star, int> zero = FuncExtensions.Constant<Star, int>(0);
@@ -83,7 +94,8 @@ namespace Sobbs
             int w = conf.Width.Either(id, widthPercent, star => width - x);
             int h = conf.Height.Either(id, heightPercent, star => height - y);
 
-            return new Frame(x + 1, y + 1, w, h, name);
+            var frame = new SoFrame(x + 1, y + 1, w, h, name);
+            return frame;
         }
     }
 }
