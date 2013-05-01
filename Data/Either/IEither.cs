@@ -1,11 +1,9 @@
-using System;
-using Sobbs.Config.Ini;
-using Sobbs.Data.List;
+﻿using System;
 
-namespace Sobbs.Config.Windows
+namespace Sobbs.Data.Either
 {
-    public interface IEither<A, B, C>
+    public interface IEither<out TLeft, out TRight>
     {
-        T Either<T>(Func<A, T> fLeft, Func<B, T> fMid, Func<C, T> fRight);
+        TOut Either<TOut>(Func<TLeft, TOut> fLeft, Func<TRight, TOut> fRight);
     }
 }

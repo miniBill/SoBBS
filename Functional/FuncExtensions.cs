@@ -9,7 +9,16 @@ namespace Sobbs.Functional
             return val => val;
         }
 
-        public static Func<T, U> Constant<T, U>(U constant)
+        public static Func<T, Unit> ToFunc<T>(this Action<T> action)
+        {
+            return val =>
+                {
+                    action(val);
+                    return Unit.Instance;
+                };
+        }
+
+        public static Func<TIn, TOut> Constant<TIn, TOut>(TOut constant)
         {
             return val => constant;
         }

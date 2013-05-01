@@ -5,15 +5,15 @@ namespace Sobbs.Data.List
 {
     public static class Operations
     {
-        public static IImmutableList<U> Map<T, U>(this IImmutableList<T> list, Func<T, U> f)
+        public static IImmutableList<TOut> Map<TIn, TOut>(this IImmutableList<TIn> list, Func<TIn, TOut> f)
         {
             if (list.IsEmpty)
-                return ImmutableList<U>.Empty;
+                return ImmutableList<TOut>.Empty;
 
             return list.Tail.Map(f).Add(f.Invoke(list.Value));
         }
 
-        public static T Lookup<T, U>(this IImmutableList<T> list, U key, Func<T, U> keyExtractor)
+        public static TVal Lookup<TVal, TKey>(this IImmutableList<TVal> list, TKey key, Func<TVal, TKey> keyExtractor)
         {
             if (list.IsEmpty)
                 throw new IndexOutOfRangeException("Key " + key + " not found");
@@ -24,7 +24,7 @@ namespace Sobbs.Data.List
             return list.Tail.Lookup(key, keyExtractor);
         }
 
-        public static U Lookup<T, U>(this IImmutableList<KeyValuePair<T, U>> list, T key)
+        public static TVal Lookup<TKey, TVal>(this IImmutableList<KeyValuePair<TKey, TVal>> list, TKey key)
         {
             if (list.IsEmpty)
                 throw new IndexOutOfRangeException("Key " + key + " not found");

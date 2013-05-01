@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -31,42 +31,38 @@
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="mono-curses">
+      <HintPath>.\mono-curses.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="mono-curses">
-      <HintPath>..\mono-curses\mono-curses.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Either\IEither.cs" />
+    <Compile Include="Data\Either\Operations.cs" />
+    <Compile Include="Data\Either\Right.cs" />
+    <Compile Include="Functional\Unit.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Config\Windows\Parser.cs" />
-    <Compile Include="Config\Ini\Parser.cs" />
+    <Compile Include="Config\Windows\WindowsConfigParser.cs" />
+    <Compile Include="Config\Ini\IniParser.cs" />
     <Compile Include="Config\Ini\IniSection.cs" />
-    <Compile Include="Config\Ini\ParserException.cs" />
+    <Compile Include="Config\Ini\IniParserException.cs" />
     <Compile Include="Config\Windows\WindowConfig.cs" />
     <Compile Include="Data\List\IImmutableList.cs" />
     <Compile Include="Data\List\ImmutableList.cs" />
     <Compile Include="Data\List\Operations.cs" />
-    <Compile Include="Config\Windows\Size.cs" />
-    <Compile Include="Config\Windows\Percent.cs" />
-    <Compile Include="Config\Windows\Star.cs" />
-    <Compile Include="Config\Windows\SizeParseException.cs" />
-    <Compile Include="Data\Either\IEither.cs" />
-    <Compile Include="Data\Either\Left.cs" />
-    <Compile Include="Data\Either\Mid.cs" />
-    <Compile Include="Data\Either\Right.cs" />
+    <Compile Include="Config\Sizes\Size.cs" />
+    <Compile Include="Config\Sizes\Percent.cs" />
+    <Compile Include="Config\Sizes\Star.cs" />
+    <Compile Include="Config\Sizes\SizeParseException.cs" />
+    <Compile Include="Data\ThreeEither\IThreeEither.cs" />
+    <Compile Include="Data\ThreeEither\ThreeLeft.cs" />
+    <Compile Include="Data\ThreeEither\ThreeMid.cs" />
+    <Compile Include="Data\ThreeEither\ThreeRight.cs" />
     <Compile Include="Config\Windows\WindowsConfig.cs" />
     <Compile Include="Functional\FuncExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Config\" />
-    <Folder Include="Config\Windows\" />
-    <Folder Include="Config\Ini\" />
-    <Folder Include="Data\" />
-    <Folder Include="Data\List\" />
-    <Folder Include="Data\Either\" />
-    <Folder Include="Functional\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

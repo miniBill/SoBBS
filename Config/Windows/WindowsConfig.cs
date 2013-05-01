@@ -1,14 +1,12 @@
-using System;
 using Sobbs.Data.List;
 
 namespace Sobbs.Config.Windows
 {
     public class WindowsConfig
     {
-        public IImmutableList<WindowConfig> Configurations
+        private IImmutableList<WindowConfig> Configurations
         {
-            get;
-            private set;
+            get; set;
         }
 
         public WindowConfig this[string key]

@@ -1,23 +1,21 @@
-using System;
-using Sobbs.Config.Ini;
-using Sobbs.Data.List;
+﻿using System;
 
-namespace Sobbs.Config.Windows
+namespace Sobbs.Data.Either
 {
-    public class Right<A, B, C> : IEither<A, B, C>
+    public class Right<TLeft, TRight> : IEither<TLeft, TRight>
     {
-        public C Value
+        private TRight Value
         {
             get;
-            private set;
+            set;
         }
 
-        public Right(C value)
+        public Right(TRight value)
         {
             Value = value;
         }
 
-        public T Either<T>(Func<A, T> fLeft, Func<B, T> fMid, Func<C, T> fRight)
+        public TOut Either<TOut>(Func<TLeft, TOut> fLeft, Func<TRight, TOut> fRight)
         {
             return fRight.Invoke(Value);
         }

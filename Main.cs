@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Mono.Terminal;
+using Sobbs.Config.Sizes;
 using Sobbs.Config.Windows;
 using Sobbs.Functional;
 
@@ -14,7 +15,7 @@ namespace Sobbs
             var path = Path.Combine(home, ".sobbs");
             if (!File.Exists(path))
                 CreateDefaultConfig(path);
-            var conf = Parser.Parse(path);
+            var conf = WindowsConfigParser.Parse(path);
 
             try
             {

@@ -1,5 +1,4 @@
-using System;
-using Sobbs.Config.Ini;
+using Sobbs.Config.Sizes;
 
 namespace Sobbs.Config.Windows
 {

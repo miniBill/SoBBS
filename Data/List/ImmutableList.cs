@@ -4,7 +4,7 @@ namespace Sobbs.Data.List
 {
     public class ImmutableList<T> : IImmutableList<T>
     {
-        private class EmptyImmutableList<U> : IImmutableList<U>
+        private class EmptyImmutableList<TU> : IImmutableList<TU>
         {
             public bool IsEmpty
             {
@@ -14,7 +14,7 @@ namespace Sobbs.Data.List
                 }
             }
 
-            public U Value
+            public TU Value
             {
                 get
                 {
@@ -22,7 +22,7 @@ namespace Sobbs.Data.List
                 }
             }
 
-            public IImmutableList<U> Tail
+            public IImmutableList<TU> Tail
             {
                 get
                 {
@@ -30,14 +30,9 @@ namespace Sobbs.Data.List
                 }
             }
 
-            public EmptyImmutableList()
+            public IImmutableList<TU> Add(TU value)
             {
-
-            }
-
-            public IImmutableList<U> Add(U value)
-            {
-                return new ImmutableList<U>(value, this);
+                return new ImmutableList<TU>(value, this);
             }
         }
 

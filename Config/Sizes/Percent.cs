@@ -1,14 +1,10 @@
-using System;
-using Sobbs.Config.Ini;
-using Sobbs.Data.List;
-
-namespace Sobbs.Config.Windows
+namespace Sobbs.Config.Sizes
 {
     public struct Percent
     {
         public readonly double Value;
 
-        public Percent(double value)
+        private Percent(double value)
         {
             Value = value;
         }
