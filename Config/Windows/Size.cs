@@ -3,7 +3,7 @@ using Sobbs.Config.Ini;
 using Sobbs.Data.List;
 
 namespace Sobbs.Config.Windows {
-	public class Size :IEither<int,Percent,Star> {
+	public class Size : IEither<int,Percent,Star> {
 		public static Size Parse(string input) {
 			if(input == "*")
 				return Wrap(Star.Instance);

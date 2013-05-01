@@ -57,6 +57,7 @@
     <Compile Include="Data\Either\Mid.cs" />
     <Compile Include="Data\Either\Right.cs" />
     <Compile Include="Config\Windows\WindowsConfig.cs" />
+    <Compile Include="Functional\FuncExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -66,5 +67,6 @@
     <Folder Include="Data\" />
     <Folder Include="Data\List\" />
     <Folder Include="Data\Either\" />
+    <Folder Include="Functional\" />
   </ItemGroup>
 </Project>
