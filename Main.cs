@@ -1,11 +1,13 @@
 using System;
+using System.IO;
 using Mono.Terminal;
 using Sobbs.Config.Windows;
 
 namespace Sobbs {
 	class MainClass {
 		public static void Main(string[] args) {
-			var path = "/home/leonardo/.sobbs";
+			var home = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			var path = Path.Combine(home, ".sobbs");
 			var conf = Parser.Parse(path);
 
 			Application.Init(false);
