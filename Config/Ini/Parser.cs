@@ -24,6 +24,7 @@ namespace Sobbs.Config.Ini {
 					if(equalIndex > 0) { //Entry
 						if(sectionName == null)
 							throw new ParserException(lineNumber, "got an entry before first section header", line);
+
 						string left = trimmed.Substring(0, equalIndex).Trim();
 						string right = trimmed.Substring(equalIndex + 1).Trim();
 						if(left.Length == 0)
