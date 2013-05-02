@@ -2,7 +2,7 @@ using Mono.Terminal;
 
 namespace Sobbs.Widgets
 {
-    class LabelListProvider : AbstractSimpleListProvider<string>
+    public class LabelListProvider : AbstractSimpleListProvider<string>
     {
         public override void Render(int line, int col, int width, int item)
         {

@@ -63,6 +63,7 @@
     <Compile Include="Config\Windows\WindowsConfig.cs" />
     <Compile Include="Functional\FuncExtensions.cs" />
     <Compile Include="Widgets\AbstractSimpleListProvider.cs" />
+    <Compile Include="Widgets\LabelListProvider.cs" />
     <Compile Include="Widgets\SoFrame.cs" />
     <Compile Include="Widgets\KeyPressedEventArgs.cs" />
   </ItemGroup>
