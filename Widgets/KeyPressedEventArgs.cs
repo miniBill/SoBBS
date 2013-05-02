@@ -1,5 +1,4 @@
 using System;
-using Mono.Terminal;
 
 namespace Sobbs.Widgets
 {

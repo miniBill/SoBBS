@@ -1,4 +1,3 @@
-using System;
 using Mono.Terminal;
 
 namespace Sobbs.Widgets
@@ -10,7 +9,7 @@ namespace Sobbs.Widgets
         {
         }
 
-        public delegate bool KeyPressedEventHandler(Widget sender,KeyPressedEventArgs e);
+        public delegate bool KeyPressedEventHandler(SoFrame sender,KeyPressedEventArgs e);
 
         public event KeyPressedEventHandler OnProcessHotKey;
 

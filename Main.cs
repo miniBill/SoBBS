@@ -24,9 +24,9 @@ namespace Sobbs
 
                 var container = new Frame(0, 0, Application.Cols, Application.Lines, "SoBBS");
 
-                var zoneConfig = conf ["zones"];
-                var threadsConfig = conf ["threads"];
-                var messagesConfig = conf ["messages"];
+                var zoneConfig = conf["zones"];
+                var threadsConfig = conf["threads"];
+                var messagesConfig = conf["messages"];
 
                 var zones = CreateContainer(zoneConfig, "Zones", Application.Cols - 2, Application.Lines - 2);
                 container.Add(zones);
@@ -35,14 +35,30 @@ namespace Sobbs
                 var messages = CreateContainer(messagesConfig, "Messages", Application.Cols - 2, Application.Lines - 2);
                 container.Add(messages);
 
-                int i = 0;
-
-                Label debug = new Label(0, -1, i.ToString());
+                var debug = new Label(0, -1, "");
                 messages.Add(debug);
 
-                Application.Iteration += (sender, e) => {
-                    i++;
-                    debug.Text = i.ToString();
+                Application.Iteration += (sender, e) =>
+                {
+                    debug.Text += "Application.Iteration\n";
+                };
+
+                zones.OnProcessHotKey += (widget, eventArgs) =>
+                {
+                    debug.Text += "zones.OnProcessHotKey\n";
+                    return false;
+                };
+
+                threads.OnProcessHotKey += (widget, eventArgs) =>
+                {
+                    debug.Text += "threads.OnProcessHotKey\n";
+                    return false;
+                };
+
+                zones.OnProcessHotKey += (widget, eventArgs) =>
+                {
+                    debug.Text += widget.Title + ".OnProcessHotKey\n";
+                    return false;
                 };
 
                 Application.Run(container);
