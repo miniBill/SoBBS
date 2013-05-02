@@ -22,12 +22,21 @@ namespace Sobbs
 
             try
             {
+                bool refreshing = true;
                 SoFrame container = InitCUI(conf);
-                Application.MainLoop.AddTimeout(
-                    new TimeSpan(TimeSpan.TicksPerSecond / 100),
-                    (loop) => true
-                );
+                System.Action refresher = (()=>
+                {
+                    while(refreshing)
+                    {
+                        Thread.Sleep(10);
+                        container.Redraw();
+                        Curses.refresh();
+                    }
+                });
+                var invocation = refresher.BeginInvoke(null, null);
                 Application.Run(container);
+                refreshing = false;
+                refresher.EndInvoke(invocation);
             }
             catch (IndexOutOfRangeException e)
             {
@@ -51,8 +60,7 @@ namespace Sobbs
 
             SoFrame.KeyPressedEventHandler logHandler = (frame, eventArgs) => 
             {
-                Logger.Log(LogLevel.Debug, frame.Title + ".OnProcessHotKey");
-                Curses.refresh();
+                Logger.Log(LogLevel.Debug, frame.Title + ".OnProcessHotKey (" + (char)eventArgs.Key + ")");
                 return false;
             };
 
@@ -81,7 +89,6 @@ namespace Sobbs
             Application.Iteration += (sender, e) => Logger.Log(LogLevel.Debug, "* Application.Iteration\n");
             container.OnProcessHotKey += (frame, eventArgs) => 
             {
-                logHandler(frame, eventArgs);
                 if (eventArgs.Key == 'q')
                 {
                     Application.Stop();
