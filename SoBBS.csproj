@@ -62,12 +62,22 @@
     <Compile Include="Data\ThreeEither\ThreeRight.cs" />
     <Compile Include="Config\Windows\WindowsConfig.cs" />
     <Compile Include="Functional\FuncExtensions.cs" />
-    <Compile Include="Widgets\AbstractSimpleListProvider.cs" />
-    <Compile Include="Widgets\LabelListProvider.cs" />
-    <Compile Include="Widgets\SoFrame.cs" />
     <Compile Include="Widgets\KeyPressedEventArgs.cs" />
+    <Compile Include="Widgets\Frame\SoFrame.cs" />
+    <Compile Include="Widgets\ListView\LabelListProvider.cs" />
+    <Compile Include="Widgets\ListView\AbstractSimpleListProvider.cs" />
+    <Compile Include="Log\Logger.cs" />
+    <Compile Include="Log\LogLevel.cs" />
+    <Compile Include="Log\ILogProvider.cs" />
+    <Compile Include="Log\TcpServerLog.cs" />
+    <Compile Include="Log\TcpClientLog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Widgets\Frame\" />
+    <Folder Include="Widgets\ListView\" />
+    <Folder Include="Log\" />
+  </ItemGroup>
 </Project>

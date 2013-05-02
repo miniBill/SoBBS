@@ -5,6 +5,8 @@ using Sobbs.Config.Sizes;
 using Sobbs.Config.Windows;
 using Sobbs.Functional;
 using Sobbs.Widgets;
+using Sobbs.Log;
+using System.Threading;
 
 namespace Sobbs
 {
@@ -15,50 +17,19 @@ namespace Sobbs
             var home = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             var path = Path.Combine(home, ".sobbs");
             if (!File.Exists(path))
-                CreateDefaultConfig(path);
+                WindowsConfigParser.CreateDefaultConfig(path);
             var conf = WindowsConfigParser.Parse(path);
 
             try
             {
-                Application.Init(false);
-
-                var container = new Frame(0, 0, Application.Cols, Application.Lines, "SoBBS");
-
-                var zoneConfig = conf["zones"];
-                var threadsConfig = conf["threads"];
-                var messagesConfig = conf["messages"];
-
-                var zones = CreateContainer(zoneConfig, "Zones", Application.Cols - 2, Application.Lines - 2);
-                container.Add(zones);
-                var threads = CreateContainer(threadsConfig, "Threads", Application.Cols - 2, Application.Lines - 2);
-                container.Add(threads);
-                var messages = CreateContainer(messagesConfig, "Messages", Application.Cols - 2, Application.Lines - 2);
-                container.Add(messages);
-
-                var provider = new LabelListProvider();
-                var debug = new ListView(0, -1, messages.w, messages.h, provider);
-                messages.Add(debug);
-
-                Application.Iteration += (sender, e) => provider.Add("Application.Iteration");
-
-                zones.OnProcessHotKey += (widget, eventArgs) =>
+                SoFrame container = InitCUI(conf);
+                System.Action move = () =>
                 {
-                    provider.Add("zones.OnProcessHotKey");
-                    return false;
+                    Thread.Sleep(10);
+                    container.Move(2, 2);
+                    Curses.refresh();
                 };
-
-                threads.OnProcessHotKey += (widget, eventArgs) =>
-                {
-                    provider.Add("threads.OnProcessHotKey");
-                    return false;
-                };
-
-                zones.OnProcessHotKey += (widget, eventArgs) =>
-                {
-                    provider.Add(widget.Title + ".OnProcessHotKey");
-                    return false;
-                };
-
+                move.BeginInvoke(null, null);
                 Application.Run(container);
             }
             catch (IndexOutOfRangeException e)
@@ -66,34 +37,56 @@ namespace Sobbs
                 Application.Stop();
                 Console.Error.WriteLine("Cannot find all the required windows configurations:");
                 Console.Error.WriteLine(e.Message);
+                Logger.Log(LogLevel.Info, "=== Application configuration error ===\n");
             }
             finally
             {
                 Application.Stop();
+                Logger.Log(LogLevel.Info, "=== Application end ===\n");
             }
         }
 
-        private static void CreateDefaultConfig(string path)
+        private static SoFrame InitCUI(WindowsConfig conf)
         {
-            using (var file = File.Open(path, FileMode.Create))
-            using (var writer = new StreamWriter(file))
+            Application.Init(false);
+            Logger.Log(LogLevel.Info, "=== Application start ===");
+            var container = new SoFrame(0, 0, Application.Cols, Application.Lines, "SoBBS");
+
+            SoFrame.KeyPressedEventHandler logHandler = (frame, eventArgs) => 
             {
-                writer.WriteLine("[zones]");
-                writer.WriteLine("top   =  0");
-                writer.WriteLine("left  =  0");
-                writer.WriteLine("width = 30%");
-                writer.WriteLine("height=  *");
-                writer.WriteLine("[threads]");
-                writer.WriteLine("top   =  0");
-                writer.WriteLine("left  = 30%");
-                writer.WriteLine("width =  *");
-                writer.WriteLine("height= 50%");
-                writer.WriteLine("[messages]");
-                writer.WriteLine("top   = 50%");
-                writer.WriteLine("left  = 30%");
-                writer.WriteLine("width =  *");
-                writer.WriteLine("height=  *");
-            }
+                Logger.Log(LogLevel.Debug, frame.Title + ".OnProcessHotKey");
+                return false;
+            };
+
+            Func<string, SoFrame> create = (name) =>
+            {
+                var lowercase = name.ToLowerInvariant();
+                var config = conf [lowercase];
+                var width = Application.Cols - 2;
+                var height = Application.Lines - 2;
+                var frame = CreateContainer(config, name, width, height);
+                container.Add(frame);
+                frame.OnProcessHotKey += logHandler;
+                return frame;
+            };
+
+            var zones = create("Zones");
+            var threads = create("Threads");
+            var messages = create("Messages");
+
+            Application.Iteration += (sender, e) => Logger.Log(LogLevel.Debug, "* Application.Iteration\n");
+            container.OnProcessHotKey += (frame, eventArgs) => 
+            {
+                logHandler(frame, eventArgs);
+                if (eventArgs.Key == 'q')
+                {
+                    Application.Stop();
+                    return true;
+                }
+                return false;
+            };
+
+            return container;
         }
 
         private static SoFrame CreateContainer(WindowConfig conf, string name, int width, int height)
@@ -108,8 +101,7 @@ namespace Sobbs
             int w = conf.Width.Either(id, widthPercent, star => width - x);
             int h = conf.Height.Either(id, heightPercent, star => height - y);
 
-            var frame = new SoFrame(x + 1, y + 1, w, h, name);
-            return frame;
+            return new SoFrame(x + 1, y + 1, w, h, name);
         }
     }
 }
