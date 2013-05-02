@@ -11,5 +11,6 @@ tmp
 tmp.c
 attrib
 binding.cs
+constants.cs
 *.so
 log
