@@ -33,9 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="mono-curses">
-      <HintPath>mono-curses.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Either\IEither.cs" />
@@ -80,5 +77,11 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="Log\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mono-curses\mono-curses.csproj">
+      <Project>{B1089A76-F6BE-4F5B-AD31-3296CD5CD922}</Project>
+      <Name>mono-curses</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
