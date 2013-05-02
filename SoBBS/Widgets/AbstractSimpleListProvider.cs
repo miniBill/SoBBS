@@ -27,7 +27,7 @@ namespace Sobbs.Widgets
         {
         }
 
-        protected T this[int index]
+        public T this[int index]
         {
             get
             {
@@ -54,6 +54,11 @@ namespace Sobbs.Widgets
         public void Add(T item)
         {
             _items.Add(item);
+        }
+
+        public void Clear()
+        {
+            _items.Clear();
         }
     }
 }

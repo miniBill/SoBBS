@@ -61,6 +61,8 @@ namespace Sobbs
             }
         }
 
+        private const string dbPath = "/home/public/sobbs";
+
         private static SoFrame InitCUI(WindowsConfig conf)
         {
             Application.Init(false);
@@ -89,7 +91,31 @@ namespace Sobbs
             };
 
             var zones = create("Zones");
+            zones.OnUpdate += (sender, e) => 
+            {
+                var listView = zones.First() as ListView;
+                var provider = listView.Provider as ListItemProvider;
+                LoadItems(provider, dbPath);
+                listView.ProviderChanged();
+            };
             var threads = create("Threads");
+            threads.OnUpdate += (sender, e) => 
+            {
+                var listView = zones.First() as ListView;
+                var selectedIndex = listView.Selected;
+                var provider = listView.Provider as ListItemProvider;
+                IListItem selectedItem = provider[selectedIndex];
+                var zone = selectedItem.ToString();
+                var tlistView = threads.First() as ListView;
+                var tprovider = tlistView.Provider as ListItemProvider;
+                LoadItems(tprovider, Path.Combine(dbPath, zone));
+                tlistView.ProviderChanged();
+            };
+            zones.OnProcessHotKey += (sender, e) => 
+            {
+                threads.Update();
+                return false;
+            };
             var messages = create("Messages");
 
             Application.Iteration += (sender, e) => Logger.Log(LogLevel.Debug, "* Application.Iteration\n");
@@ -104,6 +130,13 @@ namespace Sobbs
             };
 
             return container;
+        }
+
+        private static void LoadItems(ListItemProvider provider, string path)
+        {
+            provider.Clear();
+            foreach(var dir in Directory.EnumerateDirectories(path))
+                provider.Add(new StringItem(Path.GetFileName(dir)));
         }
 
         private static SoFrame CreateContainer(WindowConfig conf, string name, int width, int height)

@@ -21,6 +21,11 @@ namespace Sobbs.Widgets
             Curses.move(line, col);
             Curses.addstr(width < Value.Length ? Value.Substring(0, width) : Value);
         }
+
+        public override string ToString()
+        {
+            return Value;
+        }
     }
 }
 

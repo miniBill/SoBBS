@@ -47,7 +47,12 @@ namespace Mono.Terminal {
 		int top;
 		int selected;
 		bool allow_mark;
-		IListProvider provider;
+
+        public IListProvider Provider
+        {
+            get;
+            private set;
+        }
 		
 		/// <summary>
 		///   Public constructor.
@@ -58,7 +63,7 @@ namespace Mono.Terminal {
 		{
 			CanFocus = true;
 
-			this.provider = provider;
+			Provider = provider;
 			provider.SetListView (this);
 			items = provider.Items;
 			allow_mark = provider.AllowMark;
@@ -76,8 +81,8 @@ namespace Mono.Terminal {
 		/// </remarks>
 		public void ProviderChanged ()
 		{
-			if (provider.Items != items){
-				items = provider.Items;
+			if (Provider.Items != items){
+				items = Provider.Items;
 				if (top > items){
 					if (items > 1)
 						top = items-1;
@@ -96,7 +101,7 @@ namespace Mono.Terminal {
 
 		void SelectedChanged ()
 		{
-			provider.SelectedChanged ();
+			Provider.SelectedChanged ();
 		}
 		
 		public override bool ProcessKey (int c)
@@ -158,7 +163,7 @@ namespace Mono.Terminal {
 				return true;
 
 			default:
-				return provider.ProcessKey (c);
+				return Provider.ProcessKey (c);
 			}
 		}
 
@@ -180,7 +185,7 @@ namespace Mono.Terminal {
 					continue;
 				}
 
-				bool marked = allow_mark ? provider.IsMarked (item) : false;
+				bool marked = allow_mark ? Provider.IsMarked (item) : false;
 
 				if (item == selected){
 					if (marked)
@@ -193,7 +198,7 @@ namespace Mono.Terminal {
 					else
 						Curses.attrset (ColorNormal);
 				}
-				provider.Render (y + l, x, w, item);
+				Provider.Render (y + l, x, w, item);
 			}
 			PositionCursor ();
 		}
