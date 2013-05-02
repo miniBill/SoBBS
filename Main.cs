@@ -35,29 +35,27 @@ namespace Sobbs
                 var messages = CreateContainer(messagesConfig, "Messages", Application.Cols - 2, Application.Lines - 2);
                 container.Add(messages);
 
-                var debug = new Label(0, -1, "");
+                var provider = new LabelListProvider();
+                var debug = new ListView(0, -1, messages.w, messages.h, provider);
                 messages.Add(debug);
 
-                Application.Iteration += (sender, e) =>
-                {
-                    debug.Text += "Application.Iteration\n";
-                };
+                Application.Iteration += (sender, e) => provider.Add("Application.Iteration");
 
                 zones.OnProcessHotKey += (widget, eventArgs) =>
                 {
-                    debug.Text += "zones.OnProcessHotKey\n";
+                    provider.Add("zones.OnProcessHotKey");
                     return false;
                 };
 
                 threads.OnProcessHotKey += (widget, eventArgs) =>
                 {
-                    debug.Text += "threads.OnProcessHotKey\n";
+                    provider.Add("threads.OnProcessHotKey");
                     return false;
                 };
 
                 zones.OnProcessHotKey += (widget, eventArgs) =>
                 {
-                    debug.Text += widget.Title + ".OnProcessHotKey\n";
+                    provider.Add(widget.Title + ".OnProcessHotKey");
                     return false;
                 };
 

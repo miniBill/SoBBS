@@ -62,12 +62,11 @@
     <Compile Include="Data\ThreeEither\ThreeRight.cs" />
     <Compile Include="Config\Windows\WindowsConfig.cs" />
     <Compile Include="Functional\FuncExtensions.cs" />
+    <Compile Include="Widgets\AbstractSimpleListProvider.cs" />
     <Compile Include="Widgets\SoFrame.cs" />
     <Compile Include="Widgets\KeyPressedEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Widgets\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
