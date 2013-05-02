@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoBBS", "SoBBS.csproj", "{14D640F8-AA17-4846-9B95-1162C43F81CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mono-curses", "..\mono-curses\mono-curses.csproj", "{B1089A76-F6BE-4F5B-AD31-3296CD5CD922}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{14D640F8-AA17-4846-9B95-1162C43F81CA}.Debug|x86.Build.0 = Debug|x86
 		{14D640F8-AA17-4846-9B95-1162C43F81CA}.Release|x86.ActiveCfg = Release|x86
 		{14D640F8-AA17-4846-9B95-1162C43F81CA}.Release|x86.Build.0 = Release|x86
+		{B1089A76-F6BE-4F5B-AD31-3296CD5CD922}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B1089A76-F6BE-4F5B-AD31-3296CD5CD922}.Debug|x86.Build.0 = Debug|Any CPU
+		{B1089A76-F6BE-4F5B-AD31-3296CD5CD922}.Release|x86.ActiveCfg = Release|Any CPU
+		{B1089A76-F6BE-4F5B-AD31-3296CD5CD922}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = SoBBS.csproj

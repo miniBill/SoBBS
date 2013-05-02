@@ -1,0 +1,167 @@
+<Type Name="ListView" FullName="Mono.Terminal.ListView">
+  <TypeSignature Language="C#" Value="public class ListView : Mono.Terminal.Widget" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ListView extends Mono.Terminal.Widget" />
+  <AssemblyInfo>
+    <AssemblyName>mono-curses</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>Mono.Terminal.Widget</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            A Listview widget.
+            </summary>
+    <remarks>
+            This widget renders a list of data.   The actual
+            rendering is implemented by an instance of the class
+            IListProvider that must be supplied at construction time.
+            </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ListView (int x, int y, int w, int h, Mono.Terminal.IListProvider provider);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int32 x, int32 y, int32 w, int32 h, class Mono.Terminal.IListProvider provider) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="x" Type="System.Int32" />
+        <Parameter Name="y" Type="System.Int32" />
+        <Parameter Name="w" Type="System.Int32" />
+        <Parameter Name="h" Type="System.Int32" />
+        <Parameter Name="provider" Type="Mono.Terminal.IListProvider" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <param name="y">To be added.</param>
+        <param name="w">To be added.</param>
+        <param name="h">To be added.</param>
+        <param name="provider">To be added.</param>
+        <summary>
+            Public constructor.
+            </summary>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="PositionCursor">
+      <MemberSignature Language="C#" Value="public override void PositionCursor ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void PositionCursor() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ProcessKey">
+      <MemberSignature Language="C#" Value="public override bool ProcessKey (int c);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool ProcessKey(int32 c) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="c">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ProcessMouse">
+      <MemberSignature Language="C#" Value="public override void ProcessMouse (Mono.Terminal.Curses.MouseEvent ev);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void ProcessMouse(valuetype Mono.Terminal.Curses/MouseEvent ev) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="ev" Type="Mono.Terminal.Curses+MouseEvent" />
+      </Parameters>
+      <Docs>
+        <param name="ev">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ProviderChanged">
+      <MemberSignature Language="C#" Value="public void ProviderChanged ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ProviderChanged() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+            This method can be invoked by the model to
+            notify the view that the contents of the model
+            have changed.
+            </summary>
+        <remarks>
+            Invoke this method to invalidate the contents of
+            the ListView and force the ListView to repaint
+            the contents displayed.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Redraw">
+      <MemberSignature Language="C#" Value="public override void Redraw ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Redraw() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Selected">
+      <MemberSignature Language="C#" Value="public int Selected { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Selected" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Returns the index of the currently selected item.
+            </summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

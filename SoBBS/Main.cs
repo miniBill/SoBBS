@@ -26,10 +26,13 @@ namespace Sobbs
                 SoFrame container = InitCUI(conf);
                 System.Action refresher = (()=>
                 {
-                    while(refreshing)
+                    for(long i = 0; refreshing; i++)
                     {
+                        if(i % 100 == 0) // Approximatively once per second
+                        {
+                            container.Children.Foreach(w => w.Update());
+                        }
                         Thread.Sleep(10);
-                        container.Redraw();
                         Curses.refresh();
                     }
                 });
@@ -74,9 +77,6 @@ namespace Sobbs
                 container.Add(frame);
                 frame.OnProcessHotKey += logHandler;
                 var provider = new ListItemProvider();
-                provider.Add(new StringItem("a--"));
-                provider.Add(new StringItem("-b-"));
-                provider.Add(new StringItem("--c"));
                 var listView = new ListView(-1, -1, frame.w - 2, frame.h - 2, provider);
                 frame.Add(listView);
                 return frame;
