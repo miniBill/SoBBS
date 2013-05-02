@@ -71,6 +71,7 @@
     <Compile Include="Widgets\ListItemProvider.cs" />
     <Compile Include="Widgets\IListItem.cs" />
     <Compile Include="Widgets\StringItem.cs" />
+    <Compile Include="Functional\IEnumerableExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

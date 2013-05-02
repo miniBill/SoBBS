@@ -16,6 +16,14 @@ namespace Sobbs.Widgets
 
         private readonly List<KeyPressedEventHandler> _onProcessHotKey = new List<KeyPressedEventHandler>();
 
+        public event EventHandler OnUpdate;
+
+        public void Update()
+        {
+            if(OnUpdate != null)
+                OnUpdate(this, EventArgs.Empty);
+        }
+
         public event KeyPressedEventHandler OnProcessHotKey
         {
             add

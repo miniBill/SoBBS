@@ -31,7 +31,6 @@ using System;
 using System.Runtime.InteropServices;
 
 namespace Mono.Terminal {
-
 	/// <summary>
 	///   Simple main loop implementation that can be used to monitor
 	///   file descriptor, run timers and idle handlers.

@@ -29,7 +29,6 @@ using System;
 using System.Runtime.InteropServices;
 
 namespace Mono.Terminal {
-
 	public class Window {
 		public readonly IntPtr Handle;
 		static Window curscr;

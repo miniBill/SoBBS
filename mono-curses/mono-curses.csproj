@@ -37,9 +37,26 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="binding.cs" />
     <Compile Include="constants.cs" />
-    <Compile Include="gui.cs" />
-    <Compile Include="handles.cs" />
-    <Compile Include="mainloop.cs" />
+    <Compile Include="Fill.cs" />
+    <Compile Include="Widget.cs" />
+    <Compile Include="Label.cs" />
+    <Compile Include="TrimLabel.cs" />
+    <Compile Include="Entry.cs" />
+    <Compile Include="Button.cs" />
+    <Compile Include="CheckBox.cs" />
+    <Compile Include="IListProvider.cs" />
+    <Compile Include="ListView.cs" />
+    <Compile Include="Container.cs" />
+    <Compile Include="Frame.cs" />
+    <Compile Include="Dialog.cs" />
+    <Compile Include="MessageBox.cs" />
+    <Compile Include="MenuItem.cs" />
+    <Compile Include="MenuBarItem.cs" />
+    <Compile Include="MenuBar.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="RunState.cs" />
+    <Compile Include="MainLoop.cs" />
+    <Compile Include="Handles.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

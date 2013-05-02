@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using Mono.Terminal;
 using Sobbs.Config.Sizes;
 using Sobbs.Config.Windows;
@@ -30,7 +31,12 @@ namespace Sobbs
                     {
                         if(i % 100 == 0) // Approximatively once per second
                         {
-                            container.Children.Foreach(w => w.Update());
+                            container.ForEach(w => 
+                            {
+                                var frame = w as SoFrame;
+                                if(frame != null)
+                                    frame.Update();
+                            });
                         }
                         Thread.Sleep(10);
                         Curses.refresh();
