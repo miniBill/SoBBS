@@ -23,13 +23,10 @@ namespace Sobbs
             try
             {
                 SoFrame container = InitCUI(conf);
-                System.Action move = () =>
-                {
-                    Thread.Sleep(10);
-                    container.Move(2, 2);
-                    Curses.refresh();
-                };
-                move.BeginInvoke(null, null);
+                Application.MainLoop.AddTimeout(
+                    new TimeSpan(TimeSpan.TicksPerSecond / 100),
+                    (loop) => true
+                );
                 Application.Run(container);
             }
             catch (IndexOutOfRangeException e)
@@ -55,6 +52,7 @@ namespace Sobbs
             SoFrame.KeyPressedEventHandler logHandler = (frame, eventArgs) => 
             {
                 Logger.Log(LogLevel.Debug, frame.Title + ".OnProcessHotKey");
+                Curses.refresh();
                 return false;
             };
 
@@ -67,6 +65,12 @@ namespace Sobbs
                 var frame = CreateContainer(config, name, width, height);
                 container.Add(frame);
                 frame.OnProcessHotKey += logHandler;
+                var provider = new ListItemProvider();
+                provider.Add(new StringItem("a--"));
+                provider.Add(new StringItem("-b-"));
+                provider.Add(new StringItem("--c"));
+                var listView = new ListView(-1, -1, frame.w - 2, frame.h - 2, provider);
+                frame.Add(listView);
                 return frame;
             };
 

@@ -30,6 +30,8 @@ namespace Sobbs.Widgets
 
         public override bool ProcessHotKey(int key)
         {
+            if(base.ProcessHotKey(key))
+                return true;
             var args = new KeyPressedEventArgs(key);
             return _onProcessHotKey.Any(handler => handler(this, args));
         }
