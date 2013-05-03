@@ -92,9 +92,9 @@ namespace Mono.Terminal {
 			RedrawChildren ();
 		}
 
-		public override void Add (Widget w)
+		public override void Add (Widget widget)
 		{
-			base.Add (w);
+			base.Add (widget);
 		}
 	}
 }

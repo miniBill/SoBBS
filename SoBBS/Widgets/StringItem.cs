@@ -1,14 +1,13 @@
-using System;
 using Mono.Terminal;
 
 namespace Sobbs.Widgets
 {
     public class StringItem : IListItem
     {
-        public string Value
+        private string Value
         {
             get;
-            private set;
+            set;
         }
 
         public StringItem(string value)

@@ -71,14 +71,12 @@
     <Compile Include="Widgets\ListItemProvider.cs" />
     <Compile Include="Widgets\IListItem.cs" />
     <Compile Include="Widgets\StringItem.cs" />
-    <Compile Include="Functional\IEnumerableExtensions.cs" />
+    <Compile Include="Functional\EnumerableExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Log\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\mono-curses\mono-curses.csproj">
       <Project>{B1089A76-F6BE-4F5B-AD31-3296CD5CD922}</Project>

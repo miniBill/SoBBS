@@ -8,7 +8,7 @@ namespace Sobbs.Log
 {
     class TcpServerLog : ILogProvider
     {
-        private TcpListener _listener;
+        private readonly TcpListener _listener;
         private readonly List<TcpClient> _clients = new List<TcpClient>();
 
         public TcpServerLog(int port)

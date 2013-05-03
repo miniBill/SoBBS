@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
 using System.IO;
 
@@ -7,8 +5,8 @@ namespace Sobbs.Log
 {
     class TcpClientLog : ILogProvider
     {
-        private TcpClient _client;
-        private StreamWriter _writer;
+        private readonly TcpClient _client;
+        private readonly StreamWriter _writer;
 
         public TcpClientLog(int port)
         {

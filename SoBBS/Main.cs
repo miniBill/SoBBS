@@ -25,16 +25,16 @@ namespace Sobbs
             {
                 bool refreshing = true;
                 SoFrame container = InitCUI(conf);
-                System.Action refresher = (()=>
+                Action refresher = (() =>
                 {
-                    for(long i = 0; refreshing; i++)
+                    for (long i = 0; refreshing; i++)
                     {
-                        if(i % 100 == 0) // Approximatively once per second
+                        if (i % 100 == 0) // Approximatively once per second
                         {
-                            container.ForEach(w => 
+                            container.ForEach(w =>
                             {
                                 var frame = w as SoFrame;
-                                if(frame != null)
+                                if (frame != null)
                                     frame.Update();
                             });
                         }
@@ -61,7 +61,7 @@ namespace Sobbs
             }
         }
 
-        private const string dbPath = "/home/public/sobbs";
+        private const string DbPath = "/home/public/sobbs";
 
         private static SoFrame InitCUI(WindowsConfig conf)
         {
@@ -69,16 +69,16 @@ namespace Sobbs
             Logger.Log(LogLevel.Info, "=== Application start ===");
             var container = new SoFrame(0, 0, Application.Cols, Application.Lines, "SoBBS");
 
-            SoFrame.KeyPressedEventHandler logHandler = (frame, eventArgs) => 
+            SoFrame.KeyPressedEventHandler logHandler = (frame, eventArgs) =>
             {
                 Logger.Log(LogLevel.Debug, frame.Title + ".OnProcessHotKey (" + (char)eventArgs.Key + ")");
                 return false;
             };
 
-            Func<string, SoFrame> create = (name) =>
+            Func<string, SoFrame> create = name =>
             {
                 var lowercase = name.ToLowerInvariant();
-                var config = conf [lowercase];
+                var config = conf[lowercase];
                 var width = Application.Cols - 2;
                 var height = Application.Lines - 2;
                 var frame = CreateContainer(config, name, width, height);
@@ -91,35 +91,47 @@ namespace Sobbs
             };
 
             var zones = create("Zones");
-            zones.OnUpdate += (sender, e) => 
+            zones.OnUpdate += (sender, e) =>
             {
                 var listView = zones.First() as ListView;
-                var provider = listView.Provider as ListItemProvider;
-                LoadItems(provider, dbPath);
-                listView.ProviderChanged();
+                if (listView != null)
+                {
+                    var provider = listView.Provider as ListItemProvider;
+                    LoadItems(provider, DbPath);
+                    listView.ProviderChanged();
+                }
             };
             var threads = create("Threads");
-            threads.OnUpdate += (sender, e) => 
+            threads.OnUpdate += (sender, e) =>
             {
                 var listView = zones.First() as ListView;
-                var selectedIndex = listView.Selected;
-                var provider = listView.Provider as ListItemProvider;
-                IListItem selectedItem = provider[selectedIndex];
-                var zone = selectedItem.ToString();
-                var tlistView = threads.First() as ListView;
-                var tprovider = tlistView.Provider as ListItemProvider;
-                LoadItems(tprovider, Path.Combine(dbPath, zone));
-                tlistView.ProviderChanged();
+                if (listView != null)
+                {
+                    var selectedIndex = listView.Selected;
+                    var provider = listView.Provider as ListItemProvider;
+                    if (provider != null)
+                    {
+                        IListItem selectedItem = provider[selectedIndex];
+                        var zone = selectedItem.ToString();
+                        var tlistView = threads.First() as ListView;
+                        if (tlistView != null)
+                        {
+                            var tprovider = tlistView.Provider as ListItemProvider;
+                            LoadItems(tprovider, Path.Combine(DbPath, zone));
+                            tlistView.ProviderChanged();
+                        }
+                    }
+                }
             };
-            zones.OnProcessHotKey += (sender, e) => 
-            {
-                threads.Update();
-                return false;
-            };
+            zones.OnProcessHotKey += (sender, args) =>
+                {
+                    threads.Update();
+                    return false;
+                };
             var messages = create("Messages");
 
             Application.Iteration += (sender, e) => Logger.Log(LogLevel.Debug, "* Application.Iteration\n");
-            container.OnProcessHotKey += (frame, eventArgs) => 
+            container.OnProcessHotKey += (frame, eventArgs) =>
             {
                 if (eventArgs.Key == 'q')
                 {
@@ -135,7 +147,7 @@ namespace Sobbs
         private static void LoadItems(ListItemProvider provider, string path)
         {
             provider.Clear();
-            foreach(var dir in Directory.EnumerateDirectories(path))
+            foreach (var dir in Directory.EnumerateDirectories(path))
                 provider.Add(new StringItem(Path.GetFileName(dir)));
         }
 

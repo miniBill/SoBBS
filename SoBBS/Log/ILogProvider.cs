@@ -1,5 +1,3 @@
-using System;
-
 namespace Sobbs.Log
 {
     public interface ILogProvider

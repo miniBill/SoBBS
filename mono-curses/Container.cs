@@ -324,11 +324,11 @@ namespace Mono.Terminal
         /// </summary>
         /// <remarks>
         /// </remarks>
-        public virtual void Add(Widget w)
+        public virtual void Add(Widget widget)
         {
-            widgets.Add(w);
-            w.Container = this;
-            if (w.CanFocus)
+            widgets.Add(widget);
+            widget.Container = this;
+            if (widget.CanFocus)
                 this.CanFocus = true;
         }
 

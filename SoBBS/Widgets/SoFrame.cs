@@ -44,10 +44,10 @@ namespace Sobbs.Widgets
             return _onProcessHotKey.Any(handler => handler(this, args));
         }
 
-        public override void Add(Widget w)
+        public override void Add(Widget widget)
         {
-            base.Add(w);
-            var frame = w as SoFrame;
+            base.Add(widget);
+            var frame = widget as SoFrame;
             if (frame != null)
             {
                 _onProcessHotKey.Add((sender, eventArgs) => frame.ProcessHotKey(eventArgs.Key));

@@ -1,5 +1,3 @@
-using System;
-
 namespace Sobbs.Widgets
 {
     public interface IListItem
