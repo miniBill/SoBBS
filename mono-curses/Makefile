@@ -3,17 +3,36 @@ MONO_CURSES=mono-curses
 
 SOURCES = 		\
 	AssemblyInfo.cs	\
-	handles.cs	\
-	binding.cs	\
-	gui.cs		\
-	mainloop.cs	\
-	constants.cs
+	Handles.cs	\
+	Binding.cs	\
+	MainLoop.cs	\
+	Constants.cs    \
+	Application.cs  \
+	Button.cs       \
+	CheckBox.cs     \
+	Constants.cs    \
+	Container.cs    \
+	Dialog.cs       \
+	Entry.cs        \
+	Fill.cs         \
+	Frame.cs        \
+	Handles.cs      \
+	IListProvider.cs \
+	Label.cs        \
+	ListView.cs     \
+	MenuBar.cs      \
+	MenuBarItem.cs  \
+	MenuItem.cs     \
+	MessageBox.cs   \
+	RunState.cs     \
+	TrimLabel.cs    \
+	Widget.cs
 
 EXTRA_DIST = 	\
 	mono-curses.snk	\
 	configure	\
 	Makefile	\
-	binding.cs.in	\
+	Binding.cs.in	\
 	attrib.c	\
 	mono-curses.c	\
 	mono-curses.source	\
@@ -27,17 +46,17 @@ DOCS_DIST = \
 
 all: config.make mono-curses.dll libmono-curses.so mono-curses.zip mono-curses.pc
 
-test.exe: test.cs mono-curses.dll libmono-curses.so
-	dmcs -debug test.cs -r:mono-curses.dll
+test.exe: Test.cs mono-curses.dll libmono-curses.so
+	dmcs -debug Test.cs -r:mono-curses.dll
 
 grun: gtest.exe
 	MONO_PATH=. mono --debug gtest.exe
 
-gtest.exe: gtest.cs mono-curses.dll
-	dmcs -debug gtest.cs -r:mono-curses.dll
+gtest.exe: Gtest.cs mono-curses.dll
+	dmcs -debug Gtest.cs -r:mono-curses.dll
 
-mltest.exe: mltest.cs mono-curses.dll
-	dmcs -debug mltest.cs -r:mono-curses.dll
+mltest.exe: Mltest.cs mono-curses.dll
+	dmcs -debug Mltest.cs -r:mono-curses.dll
 
 mlrun: mltest.exe
 	mono --debug mltest.exe
@@ -53,7 +72,7 @@ mono-curses.tree mono-curses.zip: mono-curses.xml mono-curses.dll docs/ns-Mono.T
 	monodocer -importslashdoc:mono-curses.xml -path:docs -assembly:mono-curses.dll
 	mdassembler --ecma docs/ --out mono-curses
 
-binding.cs: binding.cs.in Makefile
+Binding.cs: Binding.cs.in Makefile
 	if test `uname` = Darwin; then make t-bugosx; else make detect; fi
 
 t-bugosx: 
@@ -66,11 +85,11 @@ detect:
 	make binding CURSES=`ldd ./tmp  | grep ncurses | awk '{print $$3}' | sed 's#.*libncurses#ncurses#'`
 
 binding:
-	sed -e 's/@CURSES@/$(CURSES)/' -e 's/@MONO_CURSES@/$(MONO_CURSES)/' < binding.cs.in > binding.cs
+	sed -e 's/@CURSES@/$(CURSES)/' -e 's/@MONO_CURSES@/$(MONO_CURSES)/' < Binding.cs.in > Binding.cs
 
-constants.cs: attrib.c
+Constants.cs: attrib.c
 	gcc -o attrib attrib.c  -lncurses
-	./attrib constants.cs
+	./attrib Constants.cs
 
 libmono-curses.so: mono-curses.c
 	if test `uname` = Darwin; then gcc -dynamiclib -m32 mono-curses.c -o libmono-curses.dylib -lncurses; else gcc -g -shared -fPIC mono-curses.c -o libmono-curses.so -lncurses; fi
@@ -79,7 +98,7 @@ test: test.exe
 	mono test.exe
 
 clean:
-	-rm -f *.exe *dll binding.cs *.so *dylib
+	-rm -f *.exe *dll Binding.cs *.so *dylib
 
 install: all
 	mkdir -p $(prefix)/bin

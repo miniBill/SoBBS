@@ -10,7 +10,7 @@ mono-curses.zip
 tmp
 tmp.c
 attrib
-binding.cs
-constants.cs
+Binding.cs
+Constants.cs
 *.so
 log
