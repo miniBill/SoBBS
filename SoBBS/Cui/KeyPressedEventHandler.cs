@@ -1,4 +1,4 @@
 namespace Sobbs.Cui
 {
-    public delegate bool KeyPressedEventHandler<T>(T sender, KeyPressedEventArgs e);
+    public delegate bool KeyPressedEventHandler<in T>(T sender, KeyPressedEventArgs e);
 }

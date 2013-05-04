@@ -2,7 +2,7 @@ namespace Sobbs.Cui
 {
     public class WidgetInfo
     {
-        protected WidgetInfo(int x, int y, int width, int height)
+        public WidgetInfo(int x, int y, int width, int height)
         {
             X = x;
             Y = y;

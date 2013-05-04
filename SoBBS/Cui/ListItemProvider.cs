@@ -1,4 +1,6 @@
-namespace Sobbs.Cui.Curses
+using Sobbs.Cui.Curses;
+
+namespace Sobbs.Cui
 {
     public class ListItemProvider : AbstractSimpleListProvider<IListItem>
     {

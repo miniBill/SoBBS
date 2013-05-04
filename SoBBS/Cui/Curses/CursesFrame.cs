@@ -125,14 +125,14 @@ namespace Sobbs.Cui.Curses
     public class CursesWidget<T> : IWidget where T : Widget
     {
         public virtual event KeyPressedEventHandler<IFrame> OnProcessHotKey;
-        public int w
+        public int W
         {
             get
             {
                 return Implementation.w;
             }
         }
-        public int h
+        public int H
         {
             get
             {

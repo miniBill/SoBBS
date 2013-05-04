@@ -5,8 +5,11 @@ using Mono.Terminal;
 using Sobbs.Config.Sizes;
 using Sobbs.Config.Windows;
 using Sobbs.Cui;
+#if __MONO_CS__
 using Sobbs.Cui.Curses;
+#else
 using Sobbs.Cui.Forms;
+#endif
 using Sobbs.Functional;
 using Sobbs.Functional.Data.Maybe;
 using Sobbs.Log;
@@ -78,8 +81,12 @@ namespace Sobbs
             }
         }
 
+#if __MONO_CS__
         private const string DbPath = "/home/public/sobbs";
-        
+#else
+        private static readonly string DbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SoBBS");
+#endif
+
 #if __MONO_CS__
         private static CursesFrame InitCUI(ICuiFactory factory, WindowsConfig conf)
 #else
@@ -111,7 +118,7 @@ namespace Sobbs
                 var frame = container.Add(frameInfo);
                 frame.OnProcessHotKey += logHandler;
                 var provider = new ListItemProvider();
-                var listViewInfo = new ListViewInfo(-1, -1, frame.w - 2, frame.h - 2, provider);
+                var listViewInfo = new ListViewInfo(-1, -1, frame.W - 2, frame.H - 2, provider);
                 frame.Add(listViewInfo);
                 return frame;
             };
@@ -152,7 +159,7 @@ namespace Sobbs
                 };
             zones.OnProcessHotKey += (sender, args) =>
                 {
-                    //threads.Update();
+                    threads.UpdateData();
                     return false;
                 };
             /*var messages =*/

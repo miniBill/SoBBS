@@ -96,16 +96,15 @@
     <Compile Include="Log\TcpServerLog.cs" />
     <Compile Include="Log\TcpClientLog.cs" />
     <Compile Include="Cui\Curses\CursesFrame.cs" />
-    <Compile Include="Cui\Curses\AbstractSimpleListProvider.cs" />
+    <Compile Include="Cui\AbstractSimpleListProvider.cs" />
     <Compile Include="Cui\Curses\LabelListProvider.cs" />
-    <Compile Include="Cui\Curses\ListItemProvider.cs" />
+    <Compile Include="Cui\ListItemProvider.cs" />
     <Compile Include="Cui\Curses\IListItem.cs" />
-    <Compile Include="Cui\Curses\StringItem.cs" />
+    <Compile Include="Cui\StringItem.cs" />
     <Compile Include="Functional\EnumerableExtensions.cs" />
     <Compile Include="Cui\SoApplication.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup />
   <ItemGroup />
   <ItemGroup />
   <ItemGroup>
