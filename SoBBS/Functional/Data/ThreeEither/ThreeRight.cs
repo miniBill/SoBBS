@@ -1,6 +1,6 @@
 using System;
 
-namespace Sobbs.Data.ThreeEither
+namespace Sobbs.Functional.Data.ThreeEither
 {
     public class ThreeRight<TLeft, TMid, TRight> : IThreeEither<TLeft, TMid, TRight>
     {

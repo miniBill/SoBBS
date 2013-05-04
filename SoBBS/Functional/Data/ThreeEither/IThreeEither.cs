@@ -1,6 +1,6 @@
 using System;
 
-namespace Sobbs.Data.ThreeEither
+namespace Sobbs.Functional.Data.ThreeEither
 {
     public interface IThreeEither<out TLeft, out TMid, out TRight>
     {

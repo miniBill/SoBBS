@@ -7,8 +7,8 @@ namespace Sobbs.Widgets
 {
     public class SoFrame : Frame
     {
-        public SoFrame(int x, int y, int w, int h, string title)
-            : base(x, y, w, h, title)
+        public SoFrame(int x, int y, int width, int height, string title)
+            : base(x, y, width, height, title)
         {
         }
 

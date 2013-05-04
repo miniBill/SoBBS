@@ -13,6 +13,15 @@ namespace Sobbs
 {
     public static class MainClass
     {
+        private class BoolWrapper
+        {
+            public bool Value
+            {
+                get; 
+                set;
+            }
+        }
+
         public static void Main()
         {
             var home = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
@@ -23,28 +32,28 @@ namespace Sobbs
 
             try
             {
-                bool refreshing = true;
+                var refreshing = new BoolWrapper {Value = true};
                 SoFrame container = InitCUI(conf);
-                Action refresher = (() =>
-                {
-                    for (long i = 0; refreshing; i++)
+                Action<BoolWrapper> refresher = wrapper =>
                     {
-                        if (i % 100 == 0) // Approximatively once per second
+                        for (long i = 0; wrapper.Value; i++)
                         {
-                            container.ForEach(w =>
+                            if (i % 100 == 0) // Approximatively once per second
                             {
-                                var frame = w as SoFrame;
-                                if (frame != null)
-                                    frame.Update();
-                            });
+                                container.ForEach(w =>
+                                    {
+                                        var frame = w as SoFrame;
+                                        if (frame != null)
+                                            frame.Update();
+                                    });
+                            }
+                            Thread.Sleep(10);
+                            Curses.refresh();
                         }
-                        Thread.Sleep(10);
-                        Curses.refresh();
-                    }
-                });
-                var invocation = refresher.BeginInvoke(null, null);
+                    };
+                var invocation = refresher.BeginInvoke(refreshing, null, null);
                 Application.Run(container);
-                refreshing = false;
+                refreshing.Value = false;
                 refresher.EndInvoke(invocation);
             }
             catch (IndexOutOfRangeException e)
@@ -85,7 +94,7 @@ namespace Sobbs
                 container.Add(frame);
                 frame.OnProcessHotKey += logHandler;
                 var provider = new ListItemProvider();
-                var listView = new ListView(-1, -1, frame.w - 2, frame.h - 2, provider);
+                var listView = new ListView(-1, -1, frame.width - 2, frame.height - 2, provider);
                 frame.Add(listView);
                 return frame;
             };
@@ -94,41 +103,33 @@ namespace Sobbs
             zones.OnUpdate += (sender, e) =>
             {
                 var listView = zones.First() as ListView;
-                if (listView != null)
-                {
-                    var provider = listView.Provider as ListItemProvider;
-                    LoadItems(provider, DbPath);
-                    listView.ProviderChanged();
-                }
+                if (listView == null) return;
+                var provider = listView.Provider as ListItemProvider;
+                LoadItems(provider, DbPath);
+                listView.ProviderChanged();
             };
             var threads = create("Threads");
             threads.OnUpdate += (sender, e) =>
             {
                 var listView = zones.First() as ListView;
-                if (listView != null)
-                {
-                    var selectedIndex = listView.Selected;
-                    var provider = listView.Provider as ListItemProvider;
-                    if (provider != null)
-                    {
-                        IListItem selectedItem = provider[selectedIndex];
-                        var zone = selectedItem.ToString();
-                        var tlistView = threads.First() as ListView;
-                        if (tlistView != null)
-                        {
-                            var tprovider = tlistView.Provider as ListItemProvider;
-                            LoadItems(tprovider, Path.Combine(DbPath, zone));
-                            tlistView.ProviderChanged();
-                        }
-                    }
-                }
+                if (listView == null) return;
+                var selectedIndex = listView.Selected;
+                var provider = listView.Provider as ListItemProvider;
+                if (provider == null) return;
+                IListItem selectedItem = provider[selectedIndex];
+                var zone = selectedItem.ToString();
+                var tlistView = threads.First() as ListView;
+                if (tlistView == null) return;
+                var tprovider = tlistView.Provider as ListItemProvider;
+                LoadItems(tprovider, Path.Combine(DbPath, zone));
+                tlistView.ProviderChanged();
             };
             zones.OnProcessHotKey += (sender, args) =>
                 {
                     threads.Update();
                     return false;
                 };
-            var messages = create("Messages");
+            /*var messages =*/ create("Messages");
 
             Application.Iteration += (sender, e) => Logger.Log(LogLevel.Debug, "* Application.Iteration\n");
             container.OnProcessHotKey += (frame, eventArgs) =>

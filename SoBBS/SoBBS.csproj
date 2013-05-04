@@ -35,9 +35,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Either\IEither.cs" />
-    <Compile Include="Data\Either\Operations.cs" />
-    <Compile Include="Data\Either\Right.cs" />
+    <Compile Include="Functional\Data\Either\IEither.cs" />
+    <Compile Include="Functional\Data\Either\Left.cs" />
+    <Compile Include="Functional\Data\Either\Operations.cs" />
+    <Compile Include="Functional\Data\Either\Right.cs" />
     <Compile Include="Functional\Unit.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
@@ -46,17 +47,17 @@
     <Compile Include="Config\Ini\IniSection.cs" />
     <Compile Include="Config\Ini\IniParserException.cs" />
     <Compile Include="Config\Windows\WindowConfig.cs" />
-    <Compile Include="Data\List\IImmutableList.cs" />
-    <Compile Include="Data\List\ImmutableList.cs" />
-    <Compile Include="Data\List\Operations.cs" />
+    <Compile Include="Functional\Data\List\IImmutableList.cs" />
+    <Compile Include="Functional\Data\List\ImmutableList.cs" />
+    <Compile Include="Functional\Data\List\Operations.cs" />
     <Compile Include="Config\Sizes\Size.cs" />
     <Compile Include="Config\Sizes\Percent.cs" />
     <Compile Include="Config\Sizes\Star.cs" />
     <Compile Include="Config\Sizes\SizeParseException.cs" />
-    <Compile Include="Data\ThreeEither\IThreeEither.cs" />
-    <Compile Include="Data\ThreeEither\ThreeLeft.cs" />
-    <Compile Include="Data\ThreeEither\ThreeMid.cs" />
-    <Compile Include="Data\ThreeEither\ThreeRight.cs" />
+    <Compile Include="Functional\Data\ThreeEither\IThreeEither.cs" />
+    <Compile Include="Functional\Data\ThreeEither\ThreeLeft.cs" />
+    <Compile Include="Functional\Data\ThreeEither\ThreeMid.cs" />
+    <Compile Include="Functional\Data\ThreeEither\ThreeRight.cs" />
     <Compile Include="Config\Windows\WindowsConfig.cs" />
     <Compile Include="Functional\FuncExtensions.cs" />
     <Compile Include="Widgets\KeyPressedEventArgs.cs" />

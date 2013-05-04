@@ -1,6 +1,6 @@
 using System;
 
-namespace Sobbs.Data.List
+namespace Sobbs.Functional.Data.List
 {
     public class ImmutableList<T> : IImmutableList<T>
     {

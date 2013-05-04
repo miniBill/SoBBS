@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sobbs.Data.Either
+namespace Sobbs.Functional.Data.Either
 {
     public interface IEither<out TLeft, out TRight>
     {

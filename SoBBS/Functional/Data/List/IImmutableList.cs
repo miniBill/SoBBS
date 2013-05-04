@@ -1,4 +1,4 @@
-namespace Sobbs.Data.List
+namespace Sobbs.Functional.Data.List
 {
     public interface IImmutableList<T>
     {

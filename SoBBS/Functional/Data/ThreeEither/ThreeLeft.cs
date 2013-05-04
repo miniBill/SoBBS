@@ -1,22 +1,22 @@
 using System;
 
-namespace Sobbs.Data.ThreeEither
+namespace Sobbs.Functional.Data.ThreeEither
 {
-    public class ThreeMid<TLeft, TMid, TRight> : IThreeEither<TLeft, TMid, TRight>
+    public class ThreeLeft<TLeft, TMid, TRight> : IThreeEither<TLeft, TMid, TRight>
     {
-        private TMid Value
+        private TLeft Value
         {
             get; set;
         }
 
-        public ThreeMid(TMid value)
+        public ThreeLeft(TLeft value)
         {
             Value = value;
         }
 
         public TOut Either<TOut>(Func<TLeft, TOut> fLeft, Func<TMid, TOut> fMid, Func<TRight, TOut> fRight)
         {
-            return fMid.Invoke(Value);
+            return fLeft.Invoke(Value);
         }
     }
 

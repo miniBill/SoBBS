@@ -1,5 +1,5 @@
 using System;
-using Sobbs.Data.ThreeEither;
+using Sobbs.Functional.Data.ThreeEither;
 
 namespace Sobbs.Config.Sizes
 {
