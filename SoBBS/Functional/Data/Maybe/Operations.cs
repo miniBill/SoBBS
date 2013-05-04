@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sobbs.Functional.Data.Maybe
+﻿namespace Sobbs.Functional.Data.Maybe
 {
     public static class Operations
     {
