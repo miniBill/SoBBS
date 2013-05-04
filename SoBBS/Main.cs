@@ -5,7 +5,7 @@ using Mono.Terminal;
 using Sobbs.Config.Sizes;
 using Sobbs.Config.Windows;
 using Sobbs.Functional;
-using Sobbs.Functional.Data.Either;
+using Sobbs.Functional.Data.Maybe;
 using Sobbs.Widgets;
 using Sobbs.Log;
 using System.Threading;
@@ -41,12 +41,9 @@ namespace Sobbs
                         {
                             if (i % 100 == 0) // Approximatively once per second
                             {
-                                container.ForEach(w =>
-                                    {
-                                        var frame = w as SoFrame;
-                                        if (frame != null)
-                                            frame.Update();
-                                    });
+                                (from widget in container
+                                 from frame in widget.MaybeCast<SoFrame>()
+                                 select frame).ForEach(frame => frame.Update());
                             }
                             Thread.Sleep(10);
                             Curses.refresh();
@@ -102,30 +99,33 @@ namespace Sobbs
 
             var zones = create("Zones");
             zones.OnUpdate += (sender, e) =>
-            {
-                var listView = zones.First() as ListView;
-                if (listView == null) return;
-                var provider = listView.Provider as ListItemProvider;
-                LoadItems(provider, DbPath);
-                listView.ProviderChanged();
-            };
+                {
+                    var maybeCast = from listView in zones.First().MaybeCast<ListView>()
+                                    from provider in listView.Provider.MaybeCast<ListItemProvider>()
+                                    select new { ListView = listView, Provider = provider };
+                    foreach (var result in maybeCast)
+                    {
+                        LoadItems(result.Provider, DbPath);
+                        result.ListView.ProviderChanged();
+                    }
+                };
             var threads = create("Threads");
             threads.OnUpdate += (sender, e) =>
                 {
-                    var maybeResult = from zonesList in (zones.First() as ListView).ToMaybe()
-                                      let selectedZoneIndex = zonesList.Selected
-                                      from zonesProvider in (zonesList.Provider as ListItemProvider).ToMaybe()
-                                      let selectedZone = zonesProvider[selectedZoneIndex]
+                    var maybeCast = from zonesList in zones.First().MaybeCast<ListView>()
+                                    let selectedZoneIndex = zonesList.Selected
+                                    from zonesProvider in zonesList.Provider.MaybeCast<ListItemProvider>()
+                                    let selectedZone = zonesProvider[selectedZoneIndex]
 
-                                      from threadsList in (threads.First() as ListView).ToMaybe()
-                                      from threadsProvider in (threadsList.Provider as ListItemProvider).ToMaybe()
-                                      select new
-                                          {
-                                              ThreadsProvider = threadsProvider,
-                                              ZoneName = selectedZone.ToString(),
-                                              ThreadsList = threadsList
-                                          };
-                    foreach (var result in maybeResult)
+                                    from threadsList in threads.First().MaybeCast<ListView>()
+                                    from threadsProvider in threadsList.Provider.MaybeCast<ListItemProvider>()
+                                    select new
+                                        {
+                                            ThreadsProvider = threadsProvider,
+                                            ZoneName = selectedZone.ToString(),
+                                            ThreadsList = threadsList
+                                        };
+                    foreach (var result in maybeCast)
                     {
                         LoadItems(result.ThreadsProvider, Path.Combine(DbPath, result.ZoneName));
                         result.ThreadsList.ProviderChanged();

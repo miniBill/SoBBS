@@ -9,19 +9,5 @@ namespace Sobbs.Functional.Data.Either
         {
             either.Either(actLeft.ToFunc(), actRight.ToFunc());
         }
-
-        public static Maybe<TC> SelectMany<TA, TB, TC>(this Maybe<TA> a, Func<TA, Maybe<TB>> func, Func<TA, TB, TC> select)
-        {
-            return a.Bind(
-                    aval => func(aval).Bind(
-                        bval => select(aval, bval).ToMaybe()
-                    )
-                   );
-        }
-
-        public static Maybe<T> ToMaybe<T>(this T value)
-        {
-            return value == null ? (Maybe<T>)new Nothing<T>() : new Just<T>(value);
-        }
     }
 }

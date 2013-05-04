@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Sobbs.Functional.Data.Either
+namespace Sobbs.Functional.Data.Maybe
 {
-    public class Just<T> : Maybe<T>
+    public class Just<T> : IMaybe<T>
     {
         public Just(T value)
         {
@@ -17,10 +17,11 @@ namespace Sobbs.Functional.Data.Either
             set;
         }
 
-        public Maybe<TOut> Bind<TOut>(Func<T, Maybe<TOut>> func)
+        public IMaybe<TOut> Bind<TOut>(Func<T, IMaybe<TOut>> func)
         {
             return func(Value);
         }
+
 
         public IEnumerator<T> GetEnumerator()
         {

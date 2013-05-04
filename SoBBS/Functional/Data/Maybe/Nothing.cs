@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Sobbs.Functional.Data.Either
+namespace Sobbs.Functional.Data.Maybe
 {
-    public class Nothing<T> : Maybe<T>
+    public class Nothing<T> : IMaybe<T>
     {
         public override bool Equals(object obj)
         {
@@ -21,7 +21,7 @@ namespace Sobbs.Functional.Data.Either
             return GetEnumerator();
         }
 
-        public Maybe<TOut> Bind<TOut>(Func<T, Maybe<TOut>> func)
+        public IMaybe<TOut> Bind<TOut>(Func<T, IMaybe<TOut>> func)
         {
             return new Nothing<TOut>();
         }
