@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Sobbs.Functional.Data.List;
 
-namespace Sobbs.Data.List
+namespace Sobbs.Functional.Data.List
 {
     public static class Operations
     {

@@ -1,6 +1,5 @@
 using Sobbs.Config.Ini;
 using Sobbs.Config.Sizes;
-using Sobbs.Data.List;
 using System.IO;
 using Sobbs.Functional.Data.List;
 

@@ -36,7 +36,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Functional\Data\Either\IEither.cs" />
+    <Compile Include="Functional\Data\Either\Just.cs" />
     <Compile Include="Functional\Data\Either\Left.cs" />
+    <Compile Include="Functional\Data\Either\Maybe.cs" />
+    <Compile Include="Functional\Data\Either\Nothing.cs" />
     <Compile Include="Functional\Data\Either\Operations.cs" />
     <Compile Include="Functional\Data\Either\Right.cs" />
     <Compile Include="Functional\Unit.cs" />

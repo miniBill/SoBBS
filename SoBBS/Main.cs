@@ -5,6 +5,7 @@ using Mono.Terminal;
 using Sobbs.Config.Sizes;
 using Sobbs.Config.Windows;
 using Sobbs.Functional;
+using Sobbs.Functional.Data.Either;
 using Sobbs.Widgets;
 using Sobbs.Log;
 using System.Threading;
@@ -17,7 +18,7 @@ namespace Sobbs
         {
             public bool Value
             {
-                get; 
+                get;
                 set;
             }
         }
@@ -32,7 +33,7 @@ namespace Sobbs
 
             try
             {
-                var refreshing = new BoolWrapper {Value = true};
+                var refreshing = new BoolWrapper { Value = true };
                 SoFrame container = InitCUI(conf);
                 Action<BoolWrapper> refresher = wrapper =>
                     {
@@ -94,7 +95,7 @@ namespace Sobbs
                 container.Add(frame);
                 frame.OnProcessHotKey += logHandler;
                 var provider = new ListItemProvider();
-                var listView = new ListView(-1, -1, frame.width - 2, frame.height - 2, provider);
+                var listView = new ListView(-1, -1, frame.w - 2, frame.h - 2, provider);
                 frame.Add(listView);
                 return frame;
             };
@@ -110,26 +111,33 @@ namespace Sobbs
             };
             var threads = create("Threads");
             threads.OnUpdate += (sender, e) =>
-            {
-                var listView = zones.First() as ListView;
-                if (listView == null) return;
-                var selectedIndex = listView.Selected;
-                var provider = listView.Provider as ListItemProvider;
-                if (provider == null) return;
-                IListItem selectedItem = provider[selectedIndex];
-                var zone = selectedItem.ToString();
-                var tlistView = threads.First() as ListView;
-                if (tlistView == null) return;
-                var tprovider = tlistView.Provider as ListItemProvider;
-                LoadItems(tprovider, Path.Combine(DbPath, zone));
-                tlistView.ProviderChanged();
-            };
+                {
+                    var maybeResult = from zonesList in (zones.First() as ListView).ToMaybe()
+                                      let selectedZoneIndex = zonesList.Selected
+                                      from zonesProvider in (zonesList.Provider as ListItemProvider).ToMaybe()
+                                      let selectedZone = zonesProvider[selectedZoneIndex]
+
+                                      from threadsList in (threads.First() as ListView).ToMaybe()
+                                      from threadsProvider in (threadsList.Provider as ListItemProvider).ToMaybe()
+                                      select new
+                                          {
+                                              ThreadsProvider = threadsProvider,
+                                              ZoneName = selectedZone.ToString(),
+                                              ThreadsList = threadsList
+                                          };
+                    foreach (var result in maybeResult)
+                    {
+                        LoadItems(result.ThreadsProvider, Path.Combine(DbPath, result.ZoneName));
+                        result.ThreadsList.ProviderChanged();
+                    }
+                };
             zones.OnProcessHotKey += (sender, args) =>
                 {
                     threads.Update();
                     return false;
                 };
-            /*var messages =*/ create("Messages");
+            /*var messages =*/
+            create("Messages");
 
             Application.Iteration += (sender, e) => Logger.Log(LogLevel.Debug, "* Application.Iteration\n");
             container.OnProcessHotKey += (frame, eventArgs) =>
