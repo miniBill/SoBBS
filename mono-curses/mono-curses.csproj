@@ -35,8 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="binding.cs" />
-    <Compile Include="constants.cs" />
+    <Compile Include="Binding.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Fill.cs" />
     <Compile Include="Widget.cs" />
     <Compile Include="Label.cs" />
