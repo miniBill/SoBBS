@@ -8,7 +8,7 @@ namespace Sobbs.Widgets
         {
             string value = this[item];
             Curses.move(line, col);
-            Curses.AddStr(value);
+            Curses.addstr(value);
         }
     }
 }

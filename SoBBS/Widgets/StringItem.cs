@@ -18,7 +18,7 @@ namespace Sobbs.Widgets
         public void Render(int line, int col, int width)
         {
             Curses.move(line, col);
-            Curses.AddStr(width < Value.Length ? Value.Substring(0, width) : Value);
+            Curses.addstr(width < Value.Length ? Value.Substring(0, width) : Value);
         }
 
         public override string ToString()
