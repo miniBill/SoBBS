@@ -6,28 +6,45 @@ using Mono.Terminal;
 
 namespace Sobbs.Cui.Curses
 {
-    public class CursesFrame : CursesContainer<Frame>, IFrame
+    public class InternalCursesFrame : Frame
     {
-        public CursesFrame(FrameInfo info)
-            : base(new Frame(info.X, info.Y, info.Width, info.Height, info.Title))
+        public InternalCursesFrame(int x, int y, int width, int height, string title)
+            : base(x, y, width, height, title)
         {
         }
 
-        private readonly List<KeyPressedEventHandler> _onProcessHotKey = new List<KeyPressedEventHandler>();
+        public override bool ProcessHotKey(int key)
+        {
+            return base.ProcessHotKey(key) || (OnProcessHotKey != null && OnProcessHotKey(this, new KeyPressedEventArgs(key)));
+        }
 
-        public event EventHandler OnUpdate;
+        public event KeyPressedEventHandler<InternalCursesFrame> OnProcessHotKey;
+    }
+
+    public class CursesFrame : CursesContainer<InternalCursesFrame>, IFrame
+    {
+        public CursesFrame(FrameInfo info)
+            : base(new InternalCursesFrame(info.X, info.Y, info.Width, info.Height, info.Title))
+        {
+            Implementation.OnProcessHotKey += (sender, e) => ProcessHotKey(e.Key);
+        }
+
+        private readonly List<KeyPressedEventHandler<IFrame>> _onProcessHotKey = new List<KeyPressedEventHandler<IFrame>>();
+
         public string Title
         {
             get { return Implementation.Title; }
         }
 
-        public void Update()
+        public void UpdateData()
         {
-            if (OnUpdate != null)
-                OnUpdate(this, EventArgs.Empty);
+            if (OnUpdateData != null)
+                OnUpdateData(this, EventArgs.Empty);
         }
 
-        public override event KeyPressedEventHandler OnProcessHotKey
+        public event EventHandler OnUpdateData;
+
+        public override event KeyPressedEventHandler<IFrame> OnProcessHotKey
         {
             add
             {
@@ -41,8 +58,6 @@ namespace Sobbs.Cui.Curses
 
         private bool ProcessHotKey(int key)
         {
-            if (Implementation.ProcessHotKey(key))
-                return true;
             var args = new KeyPressedEventArgs(key);
             return _onProcessHotKey.Any(handler => handler(this, args));
         }
@@ -109,7 +124,7 @@ namespace Sobbs.Cui.Curses
 
     public class CursesWidget<T> : IWidget where T : Widget
     {
-        public virtual event KeyPressedEventHandler OnProcessHotKey;
+        public virtual event KeyPressedEventHandler<IFrame> OnProcessHotKey;
         public int w
         {
             get

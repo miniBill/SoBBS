@@ -8,6 +8,14 @@ namespace Sobbs.Cui.Forms
     {
         public string Title { get; private set; }
 
+        public void UpdateData()
+        {
+            if (OnUpdateData != null)
+                OnUpdateData(this, EventArgs.Empty);
+        }
+
+        public event EventHandler OnUpdateData;
+
         public FormFrame(FrameInfo info)
             : base(info)
         {
@@ -23,7 +31,5 @@ namespace Sobbs.Cui.Forms
                 };
             Controls.Add(titleLabel);
         }
-
-        public event EventHandler OnUpdate;
     }
 }

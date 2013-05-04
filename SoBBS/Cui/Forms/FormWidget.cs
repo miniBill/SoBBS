@@ -14,7 +14,7 @@ namespace Sobbs.Cui.Forms
             h = info.Height;
         }
 
-        public event KeyPressedEventHandler OnProcessHotKey;
+        public event KeyPressedEventHandler<IFrame> OnProcessHotKey;
         public int w { get; private set; }
         public int h { get; private set; }
     }

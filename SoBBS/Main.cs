@@ -43,7 +43,7 @@ namespace Sobbs
                 var factory = new FormFactory();
                 FormFrame container = InitCUI(factory, conf);
 #endif
-                /*Action<BoolWrapper> refresher = wrapper =>
+                Action<BoolWrapper> refresher = wrapper =>
                     {
                         for (long i = 0; wrapper.Value; i++)
                         {
@@ -51,13 +51,15 @@ namespace Sobbs
                             {
                                 (from widget in container
                                  from frame in widget.MaybeCast<IFrame>()
-                                 select frame).ForEach(frame => frame.Update());
+                                 select frame).ForEach(frame => frame.UpdateData());
                             }
                             Thread.Sleep(10);
+#if __MONO_CS__
                             Curses.refresh();
+#endif
                         }
                     };
-                var invocation = refresher.BeginInvoke(refreshing, null, null);*/
+                var invocation = refresher.BeginInvoke(refreshing, null, null);
                 SoApplication.Run(container);
                 refreshing.Value = false;
                 //refresher.EndInvoke(invocation);
@@ -93,7 +95,7 @@ namespace Sobbs
             var container = new FormFrame(info);
 #endif
 
-            KeyPressedEventHandler logHandler = (frame, eventArgs) =>
+            KeyPressedEventHandler<IFrame> logHandler = (frame, eventArgs) =>
             {
                 Logger.Log(LogLevel.Debug, frame.Title + ".OnProcessHotKey (" + (char)eventArgs.Key + ")");
                 return false;
@@ -115,7 +117,7 @@ namespace Sobbs
             };
 
             var zones = create("Zones");
-            zones.OnUpdate += (sender, e) =>
+            zones.OnUpdateData += (sender, e) =>
                 {
                     var maybeCast = from listView in zones.First().MaybeCast<ListView>()
                                     from provider in listView.Provider.MaybeCast<ListItemProvider>()
@@ -127,7 +129,7 @@ namespace Sobbs
                     }
                 };
             var threads = create("Threads");
-            threads.OnUpdate += (sender, e) =>
+            threads.OnUpdateData += (sender, e) =>
                 {
                     var maybeCast = from zonesList in zones.First().MaybeCast<ListView>()
                                     let selectedZoneIndex = zonesList.Selected
