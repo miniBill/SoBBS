@@ -37,6 +37,7 @@ namespace Sobbs
             {
                 var refreshing = new BoolWrapper { Value = true };
 #if __MONO_CS__
+                var factory = new CursesFactory();
                 CursesFrame container = InitCUI(factory, conf);
 #else
                 var factory = new FormFactory();
@@ -76,9 +77,12 @@ namespace Sobbs
         }
 
         private const string DbPath = "/home/public/sobbs";
-
-
+        
+#if __MONO_CS__
+        private static CursesFrame InitCUI(ICuiFactory factory, WindowsConfig conf)
+#else
         private static FormFrame InitCUI(ICuiFactory factory, WindowsConfig conf)
+#endif
         {
             SoApplication.Init();
             Logger.Log(LogLevel.Info, "=== Application start ===");

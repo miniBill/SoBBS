@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG;__MONO_CS__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
@@ -58,6 +58,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Cui\WidgetInfo.cs" />
+    <Compile Include="Cui\Curses\CursesFactory.cs" />
     <Compile Include="Functional\Data\Either\IEither.cs" />
     <Compile Include="Functional\Data\Maybe\Just.cs" />
     <Compile Include="Functional\Data\Either\Left.cs" />

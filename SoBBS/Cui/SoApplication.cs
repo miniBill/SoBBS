@@ -1,7 +1,9 @@
-#if !__MONO_CS__
+#if __MONO_CS__
+using Mono.Terminal;
+using Sobbs.Cui.Curses;
+#else
 using System.Windows.Forms;
 using Sobbs.Cui.Forms;
-
 #endif
 
 namespace Sobbs.Cui
@@ -9,13 +11,13 @@ namespace Sobbs.Cui
     public static class SoApplication
     {
 #if __MONO_CS__
-        public static void Run(Container container)
+        public static void Run<T>(CursesContainer<T> container) where T : Container
 #else
         public static void Run(FormWidget container)
 #endif
         {
 #if __MONO_CS__
-            Application.Run(container);
+            Application.Run(container.Implementation);
 #else
 
             Form.Controls.Add(container);
@@ -23,23 +25,30 @@ namespace Sobbs.Cui
 #endif
         }
 
+#if !__MONO_CS__
         private readonly static Form Form;
+#endif
 
         static SoApplication()
         {
+#if !__MONO_CS__
             Form = new Form { Width = Width, Height = Height };
+#endif
         }
 
 #if __MONO_CS__
-        public int Cols
+        public static int Cols
         {
             get { return Application.Cols; }
         }
 
-        public int Lines
+        public static int Lines
         {
             get { return Application.Lines; }
         }
+
+        public const double Xprop = 0;
+        public const double Yprop = 0;
 #else
         private const int Width = 800;
         private const int Height = 600;
@@ -54,7 +63,7 @@ namespace Sobbs.Cui
         public static void Init()
         {
 #if __MONO_CS__
-            Application.Init();
+            Application.Init(false);
 #else
 #endif
         }
