@@ -28,10 +28,19 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>mono-curses.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Mono.Posix" />
+    <Reference Include="Mono.Posix">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Mono-2.10.9\lib\mono\gac\Mono.Posix\4.0.0.0__0738eb9f132ed756\Mono.Posix.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -58,6 +67,9 @@
     <Compile Include="MainLoop.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Window.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mono-curses.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

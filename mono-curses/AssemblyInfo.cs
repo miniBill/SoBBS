@@ -4,7 +4,6 @@
 using System.Reflection;
 
 [assembly: AssemblyDelaySign (false)]
-[assembly: AssemblyKeyFile ("mono-curses.snk")]
 
 [assembly: AssemblyTitle ("Curses Binding for Mono/.NET")]
 [assembly: AssemblyProduct ("Mono")]
