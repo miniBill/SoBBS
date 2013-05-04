@@ -1,4 +1,4 @@
-namespace Sobbs.Widgets
+namespace Sobbs.Cui.Curses
 {
     public class ListItemProvider : AbstractSimpleListProvider<IListItem>
     {

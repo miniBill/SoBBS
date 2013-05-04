@@ -1,6 +1,4 @@
-using Mono.Terminal;
-
-namespace Sobbs.Widgets
+namespace Sobbs.Cui.Curses
 {
     public class StringItem : IListItem
     {
@@ -17,8 +15,8 @@ namespace Sobbs.Widgets
 
         public void Render(int line, int col, int width)
         {
-            Curses.move(line, col);
-            Curses.addstr(width < Value.Length ? Value.Substring(0, width) : Value);
+            Mono.Terminal.Curses.move(line, col);
+            Mono.Terminal.Curses.addstr(width < Value.Length ? Value.Substring(0, width) : Value);
         }
 
         public override string ToString()

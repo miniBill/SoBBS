@@ -33,8 +33,31 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cui\Forms\FormContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cui\Forms\FormFactory.cs" />
+    <Compile Include="Cui\Forms\FormListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cui\IListView.cs" />
+    <Compile Include="Cui\ListViewInfo.cs" />
+    <Compile Include="Cui\IFrame.cs" />
+    <Compile Include="Cui\KeyPressedEventHandler.cs" />
+    <Compile Include="Cui\FrameInfo.cs" />
+    <Compile Include="Cui\Forms\FormWidget.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cui\IContainer.cs" />
+    <Compile Include="Cui\IWidget.cs" />
+    <Compile Include="Cui\Forms\FormFrame.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cui\WidgetInfo.cs" />
     <Compile Include="Functional\Data\Either\IEither.cs" />
     <Compile Include="Functional\Data\Maybe\Just.cs" />
     <Compile Include="Functional\Data\Either\Left.cs" />
@@ -44,6 +67,7 @@
     <Compile Include="Functional\Data\Either\Right.cs" />
     <Compile Include="Functional\Data\Maybe\Operations.cs" />
     <Compile Include="Functional\Unit.cs" />
+    <Compile Include="Cui\ICuiFactory.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Config\Windows\WindowsConfigParser.cs" />
@@ -64,19 +88,20 @@
     <Compile Include="Functional\Data\ThreeEither\ThreeRight.cs" />
     <Compile Include="Config\Windows\WindowsConfig.cs" />
     <Compile Include="Functional\FuncExtensions.cs" />
-    <Compile Include="Widgets\KeyPressedEventArgs.cs" />
+    <Compile Include="Cui\KeyPressedEventArgs.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Log\LogLevel.cs" />
     <Compile Include="Log\ILogProvider.cs" />
     <Compile Include="Log\TcpServerLog.cs" />
     <Compile Include="Log\TcpClientLog.cs" />
-    <Compile Include="Widgets\SoFrame.cs" />
-    <Compile Include="Widgets\AbstractSimpleListProvider.cs" />
-    <Compile Include="Widgets\LabelListProvider.cs" />
-    <Compile Include="Widgets\ListItemProvider.cs" />
-    <Compile Include="Widgets\IListItem.cs" />
-    <Compile Include="Widgets\StringItem.cs" />
+    <Compile Include="Cui\Curses\CursesFrame.cs" />
+    <Compile Include="Cui\Curses\AbstractSimpleListProvider.cs" />
+    <Compile Include="Cui\Curses\LabelListProvider.cs" />
+    <Compile Include="Cui\Curses\ListItemProvider.cs" />
+    <Compile Include="Cui\Curses\IListItem.cs" />
+    <Compile Include="Cui\Curses\StringItem.cs" />
     <Compile Include="Functional\EnumerableExtensions.cs" />
+    <Compile Include="Cui\SoApplication.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

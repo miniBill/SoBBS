@@ -40,7 +40,6 @@
     <Reference Include="Mono.Posix">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Mono-2.10.9\lib\mono\gac\Mono.Posix\4.0.0.0__0738eb9f132ed756\Mono.Posix.dll</HintPath>
     </Reference>
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />

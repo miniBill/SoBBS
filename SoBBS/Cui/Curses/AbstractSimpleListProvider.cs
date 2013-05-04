@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Mono.Terminal;
 
-namespace Sobbs.Widgets
+namespace Sobbs.Cui.Curses
 {
     public abstract class AbstractSimpleListProvider<T> : IListProvider
     {

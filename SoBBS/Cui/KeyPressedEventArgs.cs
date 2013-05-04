@@ -1,6 +1,6 @@
 using System;
 
-namespace Sobbs.Widgets
+namespace Sobbs.Cui
 {
     public class KeyPressedEventArgs : EventArgs
     {

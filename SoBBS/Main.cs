@@ -4,9 +4,11 @@ using System.Linq;
 using Mono.Terminal;
 using Sobbs.Config.Sizes;
 using Sobbs.Config.Windows;
+using Sobbs.Cui;
+using Sobbs.Cui.Curses;
+using Sobbs.Cui.Forms;
 using Sobbs.Functional;
 using Sobbs.Functional.Data.Maybe;
-using Sobbs.Widgets;
 using Sobbs.Log;
 using System.Threading;
 
@@ -34,25 +36,30 @@ namespace Sobbs
             try
             {
                 var refreshing = new BoolWrapper { Value = true };
-                SoFrame container = InitCUI(conf);
-                Action<BoolWrapper> refresher = wrapper =>
+#if __MONO_CS__
+                CursesFrame container = InitCUI(factory, conf);
+#else
+                var factory = new FormFactory();
+                FormFrame container = InitCUI(factory, conf);
+#endif
+                /*Action<BoolWrapper> refresher = wrapper =>
                     {
                         for (long i = 0; wrapper.Value; i++)
                         {
                             if (i % 100 == 0) // Approximatively once per second
                             {
                                 (from widget in container
-                                 from frame in widget.MaybeCast<SoFrame>()
+                                 from frame in widget.MaybeCast<IFrame>()
                                  select frame).ForEach(frame => frame.Update());
                             }
                             Thread.Sleep(10);
                             Curses.refresh();
                         }
                     };
-                var invocation = refresher.BeginInvoke(refreshing, null, null);
-                Application.Run(container);
+                var invocation = refresher.BeginInvoke(refreshing, null, null);*/
+                SoApplication.Run(container);
                 refreshing.Value = false;
-                refresher.EndInvoke(invocation);
+                //refresher.EndInvoke(invocation);
             }
             catch (IndexOutOfRangeException e)
             {
@@ -70,30 +77,36 @@ namespace Sobbs
 
         private const string DbPath = "/home/public/sobbs";
 
-        private static SoFrame InitCUI(WindowsConfig conf)
-        {
-            Application.Init(false);
-            Logger.Log(LogLevel.Info, "=== Application start ===");
-            var container = new SoFrame(0, 0, Application.Cols, Application.Lines, "SoBBS");
 
-            SoFrame.KeyPressedEventHandler logHandler = (frame, eventArgs) =>
+        private static FormFrame InitCUI(ICuiFactory factory, WindowsConfig conf)
+        {
+            SoApplication.Init();
+            Logger.Log(LogLevel.Info, "=== Application start ===");
+            var info = new FrameInfo(0, 0, SoApplication.Cols, SoApplication.Lines, "SoBBS");
+#if __MONO_CS__
+            var container = new CursesFrame(info);
+#else
+            var container = new FormFrame(info);
+#endif
+
+            KeyPressedEventHandler logHandler = (frame, eventArgs) =>
             {
                 Logger.Log(LogLevel.Debug, frame.Title + ".OnProcessHotKey (" + (char)eventArgs.Key + ")");
                 return false;
             };
 
-            Func<string, SoFrame> create = name =>
+            Func<string, IFrame> create = name =>
             {
                 var lowercase = name.ToLowerInvariant();
                 var config = conf[lowercase];
-                var width = Application.Cols - 2;
-                var height = Application.Lines - 2;
-                var frame = CreateContainer(config, name, width, height);
-                container.Add(frame);
+                var width = SoApplication.Cols - 2;
+                var height = SoApplication.Lines - 2;
+                var frameInfo = CreateContainer(config, name, width, height);
+                var frame = container.Add(frameInfo);
                 frame.OnProcessHotKey += logHandler;
                 var provider = new ListItemProvider();
-                var listView = new ListView(-1, -1, frame.w - 2, frame.h - 2, provider);
-                frame.Add(listView);
+                var listViewInfo = new ListViewInfo(-1, -1, frame.w - 2, frame.h - 2, provider);
+                frame.Add(listViewInfo);
                 return frame;
             };
 
@@ -133,7 +146,7 @@ namespace Sobbs
                 };
             zones.OnProcessHotKey += (sender, args) =>
                 {
-                    threads.Update();
+                    //threads.Update();
                     return false;
                 };
             /*var messages =*/
@@ -160,7 +173,7 @@ namespace Sobbs
                 provider.Add(new StringItem(Path.GetFileName(dir)));
         }
 
-        private static SoFrame CreateContainer(WindowConfig conf, string name, int width, int height)
+        private static FrameInfo CreateContainer(WindowConfig conf, string name, int width, int height)
         {
             Func<int, int> id = FuncExtensions.Identity<int>();
             Func<Star, int> zero = FuncExtensions.Constant<Star, int>(0);
@@ -172,7 +185,7 @@ namespace Sobbs
             int w = conf.Width.Either(id, widthPercent, star => width - x);
             int h = conf.Height.Either(id, heightPercent, star => height - y);
 
-            return new SoFrame(x + 1, y + 1, w, h, name);
+            return new FrameInfo(x + 1, y + 1, w, h, name);
         }
     }
 }

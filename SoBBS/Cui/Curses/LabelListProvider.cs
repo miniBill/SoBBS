@@ -1,14 +1,12 @@
-using Mono.Terminal;
-
-namespace Sobbs.Widgets
+namespace Sobbs.Cui.Curses
 {
     public class LabelListProvider : AbstractSimpleListProvider<string>
     {
         public override void Render(int line, int col, int width, int item)
         {
             string value = this[item];
-            Curses.move(line, col);
-            Curses.addstr(value);
+            Mono.Terminal.Curses.move(line, col);
+            Mono.Terminal.Curses.addstr(value);
         }
     }
 }
