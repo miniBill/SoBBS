@@ -37,9 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Mono.Posix">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Mono-2.10.9\lib\mono\gac\Mono.Posix\4.0.0.0__0738eb9f132ed756\Mono.Posix.dll</HintPath>
-    </Reference>
+    <Reference Include="Mono.Posix" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
