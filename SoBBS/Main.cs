@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using Sobbs.Config.Windows;
 using System.IO;
+using Sobbs.Log;
 
 namespace Sobbs
 {
@@ -22,8 +23,14 @@ namespace Sobbs
             var loop = new EventLoop();
             loop.Start();
 
-            // Do androids dream of electric sheep?
-            Thread.Sleep(Timeout.Infinite);
+            loop.Enqueue(async delegate {
+                for(;;){
+                    Logger.Log(LogLevel.Debug, "Tick");
+                    await Task.Delay(3000);
+                }
+            });
+
+            Thread.Sleep(Timeout.Infinite); // Do androids dream of electric sheep?
         }
 
         private static WindowsConfig LoadConfig()

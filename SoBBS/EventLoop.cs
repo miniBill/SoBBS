@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Microsoft.Threading;
+using System.Threading;
 
 namespace Sobbs
 {
@@ -26,7 +27,8 @@ namespace Sobbs
                 Action current;
                 if (queue.TryDequeue(out current))
                     current();
-                await Task.Delay(0);
+                Thread.Sleep(1); // Don't busy wait
+                await Task.Delay(0); // Yield to continuations
             }
         }
     }

@@ -5,6 +5,6 @@ namespace Sobbs.Functional.Data.Maybe
 {
     public interface IMaybe<out T> : IEnumerable<T>
     {
-        IMaybe<T> Bind<TOut>(Func<T, IMaybe<TOut>> func);
+        IMaybe<TOut> Bind<TOut>(Func<T, IMaybe<TOut>> func);
     }
 }
