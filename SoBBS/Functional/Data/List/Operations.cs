@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sobbs.Functional.Data.Maybe;
 
 namespace Sobbs.Functional.Data.List
 {
@@ -13,13 +14,13 @@ namespace Sobbs.Functional.Data.List
             return list.Tail.Map(f).Add(f.Invoke(list.Value));
         }
 
-        public static TVal Lookup<TVal, TKey>(this IImmutableList<TVal> list, TKey key, Func<TVal, TKey> keyExtractor)
+        public static IMaybe<TVal> Lookup<TVal, TKey>(this IImmutableList<TVal> list, TKey key, Func<TVal, TKey> keyExtractor)
         {
             if (list.IsEmpty)
-                throw new IndexOutOfRangeException("Key " + key + " not found");
+                return Nothing<TVal>.Instance;
 
             if (keyExtractor.Invoke(list.Value).Equals(key))
-                return list.Value;
+                return new Just<TVal>(list.Value);
 
             return list.Tail.Lookup(key, keyExtractor);
         }

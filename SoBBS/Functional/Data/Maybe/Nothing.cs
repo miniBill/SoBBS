@@ -6,6 +6,12 @@ namespace Sobbs.Functional.Data.Maybe
 {
     public class Nothing<T> : IMaybe<T>
     {
+        private Nothing()
+        {
+        }
+
+        public static readonly IMaybe<T> Instance = new Nothing<T>();
+
         public override bool Equals(object obj)
         {
             return obj is Nothing<T>;

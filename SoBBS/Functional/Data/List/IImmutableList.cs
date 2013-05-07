@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+
 namespace Sobbs.Functional.Data.List
 {
-    public interface IImmutableList<T>
+    public interface IImmutableList<T> : IEnumerable<T>
     {
         bool IsEmpty
         {

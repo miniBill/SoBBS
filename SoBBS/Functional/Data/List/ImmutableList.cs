@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Sobbs.Functional.Data.List
 {
@@ -34,6 +36,16 @@ namespace Sobbs.Functional.Data.List
             {
                 return new ImmutableList<TU>(value, this);
             }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            public IEnumerator<TU> GetEnumerator()
+            {
+                yield break;
+            }
         }
 
         public static readonly IImmutableList<T> Empty = new EmptyImmutableList<T>();
@@ -67,6 +79,18 @@ namespace Sobbs.Functional.Data.List
         public IImmutableList<T> Add(T value)
         {
             return new ImmutableList<T>(value, this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            yield return Value;
+            foreach(var item in Tail)
+                yield return item;
         }
     }
 }

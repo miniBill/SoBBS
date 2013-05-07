@@ -1,11 +1,11 @@
-﻿namespace Sobbs.Functional.Data.Maybe
+namespace Sobbs.Functional.Data.Maybe
 {
     public static class Operations
     {
         private static IMaybe<T> ToMaybe<T>(this T value) where T : class
         {
             if (value == null)
-                return new Nothing<T>();
+                return Nothing<T>.Instance;
             return new Just<T>(value);
         }
 
