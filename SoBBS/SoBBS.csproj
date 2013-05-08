@@ -42,7 +42,6 @@
     <Compile Include="Cui\Forms\FormContainer.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cui\Forms\FormFactory.cs" />
     <Compile Include="Cui\Forms\FormListView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -60,7 +59,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Cui\WidgetInfo.cs" />
-    <Compile Include="Cui\Curses\CursesFactory.cs" />
     <Compile Include="Functional\Data\Either\IEither.cs" />
     <Compile Include="Functional\Data\Maybe\Just.cs" />
     <Compile Include="Functional\Data\Either\Left.cs" />
@@ -69,7 +67,6 @@
     <Compile Include="Functional\Data\Either\Right.cs" />
     <Compile Include="Functional\Data\Maybe\Operations.cs" />
     <Compile Include="Functional\Unit.cs" />
-    <Compile Include="Cui\ICuiFactory.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Config\Windows\WindowsConfigParser.cs" />
     <Compile Include="Config\Ini\IniParser.cs" />
@@ -109,6 +106,10 @@
     <Compile Include="Main.cs" />
     <Compile Include="EventLoop.cs" />
     <Compile Include="Functional\Data\Maybe\IMaybe.cs" />
+    <Compile Include="IPlatform.cs" />
+    <Compile Include="IApplication.cs" />
+    <Compile Include="CursesApplication.cs" />
+    <Compile Include="IWidgetFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -119,4 +120,14 @@
       <Name>mono-curses</Name>
     </ProjectReference>
   </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
+          <CSharpFormattingPolicy IndentSwitchBody="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ArrayInitializerBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>

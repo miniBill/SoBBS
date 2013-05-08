@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace Sobbs.Cui.Forms
-{
+{/*
     public class FormContainer : FormWidget, IContainer
     {
         private readonly List<FormWidget> _children = new List<FormWidget>();
@@ -42,5 +42,5 @@ namespace Sobbs.Cui.Forms
         {
             return GetEnumerator();
         }
-    }
+    }*/
 }

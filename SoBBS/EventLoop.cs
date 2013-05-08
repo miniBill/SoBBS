@@ -18,6 +18,19 @@ namespace Sobbs
             queue.Enqueue(action);
         }
 
+        public void EnqueueLoop(Action iteration, int period = 1)
+        {
+            Enqueue(async delegate
+            {
+                for (;;)
+                {
+                    iteration();
+                    await Task.Delay(period);
+                }
+            }
+            );
+        }
+
         private readonly ConcurrentQueue<Action> queue = new ConcurrentQueue<Action>();
 
         public async void Update()

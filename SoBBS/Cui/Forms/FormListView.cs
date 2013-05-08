@@ -2,7 +2,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace Sobbs.Cui.Forms
-{
+{/*
     public class FormListView : FormWidget, IListView
     {
         private readonly ListView _listView = new ListView();
@@ -17,5 +17,5 @@ namespace Sobbs.Cui.Forms
             Controls.Add(_listView);
             ResumeLayout(false);
         }
-    }
+    }*/
 }

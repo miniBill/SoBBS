@@ -5,7 +5,7 @@ using Sobbs.Cui.Curses;
 using System.Windows.Forms;
 using Sobbs.Cui.Forms;
 #endif
-
+/*
 namespace Sobbs.Cui
 {
     public static class SoApplication
@@ -69,3 +69,4 @@ namespace Sobbs.Cui
         }
     }
 }
+*/

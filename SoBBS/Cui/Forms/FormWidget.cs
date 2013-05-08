@@ -1,7 +1,7 @@
 using System.Windows.Forms;
 
 namespace Sobbs.Cui.Forms
-{
+{/*
     public class FormWidget : Control, IWidget
     {
         public FormWidget()
@@ -21,5 +21,5 @@ namespace Sobbs.Cui.Forms
         public event KeyPressedEventHandler<IFrame> OnProcessHotKey;
         public int W { get; private set; }
         public int H { get; private set; }
-    }
+    }*/
 }

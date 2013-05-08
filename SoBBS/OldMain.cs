@@ -14,7 +14,7 @@ using Sobbs.Functional;
 using Sobbs.Functional.Data.Maybe;
 using Sobbs.Log;
 using System.Threading;
-
+/*
 namespace Sobbs
 {
     public static class OldMainClass
@@ -30,7 +30,7 @@ namespace Sobbs
 
         public static void OldMain()
         {
-            /*
+
 
             try
             {
@@ -76,7 +76,6 @@ namespace Sobbs
                 Logger.Log(LogLevel.Info, "=== Application end ===\n");
             }
 
-*/
         }
 
 #if __MONO_CS__
@@ -86,7 +85,7 @@ namespace Sobbs
 #endif
 
 #if __MONO_CS__
-        private static CursesFrame InitCUI(ICuiFactory factory, WindowsConfig conf)
+        private static CursesFrame InitCUI(IWidgetFactory factory, WindowsConfig conf)
 #else
         private static FormFrame InitCUI(ICuiFactory factory, WindowsConfig conf)
 #endif
@@ -108,7 +107,7 @@ namespace Sobbs
 
             Func<string, IFrame> create = name =>
             {
-                /*var lowercase = name.ToLowerInvariant();
+                var lowercase = name.ToLowerInvariant();
                 var config = (conf[lowercase] as Just<WindowConfig>).Value;
                 var width = SoApplication.Cols - 2;
                 var height = SoApplication.Lines - 2;
@@ -118,7 +117,7 @@ namespace Sobbs
                 var provider = new ListItemProvider();
                 var listViewInfo = new ListViewInfo(-1, -1, frame.W - 2, frame.H - 2, provider);
                 frame.Add(listViewInfo);
-                return frame;*/
+                return frame;
                 return null;
             };
 
@@ -161,7 +160,7 @@ namespace Sobbs
                     threads.UpdateData();
                     return false;
                 };
-            /*var messages =*/
+            var messages =
             create("Messages");
 
             Application.Iteration += (sender, e) => Logger.Log(LogLevel.Debug, "* Application.Iteration\n");
@@ -201,3 +200,4 @@ namespace Sobbs
         }
     }
 }
+*/

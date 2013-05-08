@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace Sobbs.Cui.Forms
-{
+{/*
     public class FormFrame : FormContainer, IFrame
     {
         public string Title { get; private set; }
@@ -31,5 +31,5 @@ namespace Sobbs.Cui.Forms
                 };
             Controls.Add(titleLabel);
         }
-    }
+    }*/
 }

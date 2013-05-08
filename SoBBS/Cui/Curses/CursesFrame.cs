@@ -6,7 +6,7 @@ using Mono.Terminal;
 
 namespace Sobbs.Cui.Curses
 {
-    public class InternalCursesFrame : Frame
+    /*public class InternalCursesFrame : Frame
     {
         public InternalCursesFrame(int x, int y, int width, int height, string title)
             : base(x, y, width, height, title)
@@ -145,5 +145,5 @@ namespace Sobbs.Cui.Curses
         {
             Implementation = implementation;
         }
-    }
+    }*/
 }

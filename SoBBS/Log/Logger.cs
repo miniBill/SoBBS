@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 namespace Sobbs.Log
 {
@@ -13,8 +14,15 @@ namespace Sobbs.Log
 
         public static void Log(LogLevel level, string message)
         {
-            foreach(var provider in Providers)
-                provider.Log(level, message);
+            DateTime now = DateTime.Now;
+            foreach (var provider in Providers)
+                provider.Log(level, Format(now) + message);
+        }
+
+        static string Format(DateTime time)
+        {
+            return time.Hour.ToString("D2") + time.Minute.ToString("D2") 
+                + time.Second.ToString("D2") + "." + time.Millisecond.ToString("D4");
         }
     }
 }
