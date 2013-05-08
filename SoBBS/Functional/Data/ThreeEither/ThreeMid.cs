@@ -18,6 +18,10 @@ namespace Sobbs.Functional.Data.ThreeEither
         {
             return fMid.Invoke(Value);
         }
-    }
 
+        public override string ToString()
+        {
+            return "Mid " + Value.ToString();
+        }
+    }
 }

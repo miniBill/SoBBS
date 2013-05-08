@@ -7,5 +7,10 @@ namespace Sobbs.Config.Sizes
         }
 
         public static readonly Star Instance = new Star();
+
+        public override string ToString()
+        {
+            return "*";
+        }
     }
 }

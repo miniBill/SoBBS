@@ -42,13 +42,17 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cui\IListView.cs" />
-    <Compile Include="Cui\IFrame.cs" />
-    <Compile Include="Cui\FrameInfo.cs" />
-    <Compile Include="Cui\IContainer.cs" />
-    <Compile Include="Cui\IWidget.cs" />
-    <Compile Include="Cui\WidgetInfo.cs" />
-    <Compile Include="CursesExample.cs" />
+    <Compile Include="Cui\Curses\Sizer.cs" />
+    <Compile Include="Cui\Curses\SoCurses.cs" />
+    <Compile Include="Cui\Interfaces\IListView.cs" />
+    <Compile Include="Cui\Interfaces\IFrame.cs" />
+    <Compile Include="Cui\Info\FrameInfo.cs" />
+    <Compile Include="Cui\Interfaces\IContainer.cs" />
+    <Compile Include="Cui\Interfaces\IWidget.cs" />
+    <Compile Include="Cui\Info\WidgetInfo.cs" />
+    <Compile Include="Cui\Curses\CursesContainer.cs" />
+    <Compile Include="Cui\Curses\CursesFrame.cs" />
+    <Compile Include="Cui\Curses\CursesWidget.cs" />
     <Compile Include="Functional\Data\Either\IEither.cs" />
     <Compile Include="Functional\Data\Maybe\Just.cs" />
     <Compile Include="Functional\Data\Either\Left.cs" />
@@ -82,13 +86,12 @@
     <Compile Include="Log\TcpServerLog.cs" />
     <Compile Include="Log\TcpClientLog.cs" />
     <Compile Include="Functional\EnumerableExtensions.cs" />
-    <Compile Include="OldMain.cs" />
-    <Compile Include="Pump.cs" />
+    <Compile Include="Loop\Pump.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="EventLoop.cs" />
+    <Compile Include="Loop\EventLoop.cs" />
     <Compile Include="Functional\Data\Maybe\IMaybe.cs" />
-    <Compile Include="IApplication.cs" />
-    <Compile Include="CursesApplication.cs" />
+    <Compile Include="Cui\Interfaces\IApplication.cs" />
+    <Compile Include="Cui\Curses\CursesApplication.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -1,13 +1,14 @@
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using CursesSharp;
 using Sobbs.Config.Windows;
 using System.IO;
-using Sobbs.Cui;
-using Sobbs.Log;
 using System.Linq;
+using Sobbs.Cui.Curses;
+using Sobbs.Cui.Info;
+using Sobbs.Cui.Interfaces;
 using Sobbs.Functional;
+using Sobbs.Loop;
 
 namespace Sobbs
 {
@@ -15,8 +16,8 @@ namespace Sobbs
     {
         private static void CreateWindow(WindowConfig config, IApplication application)
         {
-            var info = new FrameInfo(config.Left, config.Top, config.Height, config.Width, config.Name);
-            //application.MainContainer.Add(info);
+            var info = new FrameInfo(config.Left, config.Top, config.Width, config.Height, config.Name);
+            application.MainContainer.Add(info);
         }
 
         public static void Main()
@@ -24,22 +25,26 @@ namespace Sobbs
             var cancellationTokenSource = new CancellationTokenSource();
             var loop = new EventLoop(cancellationTokenSource.Token);
 
-            loop.EnqueueLoop(() => Logger.Log(LogLevel.Debug, "--Beat--"), period: 1/*000*/);
-
             WindowsConfig config = LoadConfig();
-            var maybeZones = config["zones"];
-            var maybeThreads = config["threads"];
-            var maybeMessages = config["messages"];
+            var maybeZones = config["Zones"];
+            var maybeThreads = config["Threads"];
+            var maybeMessages = config["Messages"];
 
-            using (IApplication application = new CursesApplication())
+            using (IApplication application = new CursesApplication("SoBBS"))
             {
                 var creator = ((Action<WindowConfig, IApplication>)CreateWindow).Curry(application);
                 maybeZones.Concat(maybeThreads).Concat(maybeMessages).ForEach(creator);
 
-                loop.Enqueue(async () =>
+                loop.EnqueueLoop(application.Refresh);
+
+                loop.EnqueueCancelableLoop(() =>
                     {
-                        await Task.Delay(4000);
-                        cancellationTokenSource.Cancel();
+                        if (Curses.StdScr.GetChar() == 'q')
+                        {
+                            cancellationTokenSource.Cancel();
+                            return false;
+                        }
+                        return true;
                     });
 
                 loop.Join();

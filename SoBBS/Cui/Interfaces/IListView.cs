@@ -1,4 +1,4 @@
-namespace Sobbs.Cui
+namespace Sobbs.Cui.Interfaces
 {
     public interface IListView : IWidget
     {

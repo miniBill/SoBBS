@@ -1,6 +1,6 @@
 using Sobbs.Config.Sizes;
 
-namespace Sobbs.Cui
+namespace Sobbs.Cui.Info
 {
     public class FrameInfo : WidgetInfo
     {

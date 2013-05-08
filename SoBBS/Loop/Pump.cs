@@ -17,7 +17,7 @@ namespace System.Threading.Tasks.Schedulers
         /// <summary>The maximum concurrency level allowed by this scheduler.</summary> 
         private readonly int _maxDegreeOfParallelism;
         /// <summary>Whether the scheduler is currently processing work items.</summary> 
-        private int _delegatesQueuedOrRunning = 0; // protected by lock(_tasks) 
+        private int _delegatesQueuedOrRunning; // protected by lock(_tasks) 
 
         /// <summary> 
         /// Initializes an instance of the LimitedConcurrencyLevelTaskScheduler class with the 
@@ -79,7 +79,7 @@ namespace System.Threading.Tasks.Schedulers
                         }
 
                         // Execute the task we pulled out of the queue 
-                        base.TryExecuteTask(item);
+                        TryExecuteTask(item);
                     }
                 }
                 // We're done processing items on the current thread 
@@ -100,7 +100,7 @@ namespace System.Threading.Tasks.Schedulers
             if (taskWasPreviouslyQueued) TryDequeue(task);
 
             // Try to run the task. 
-            return base.TryExecuteTask(task);
+            return TryExecuteTask(task);
         }
 
         /// <summary>Attempts to remove a previously scheduled task from the scheduler.</summary> 

@@ -1,10 +1,10 @@
 using System;
-using Sobbs.Cui;
 
-namespace Sobbs
+namespace Sobbs.Cui.Interfaces
 {
     public interface IApplication : IDisposable
     {
         IContainer MainContainer { get; }
+        void Refresh();
     }
 }

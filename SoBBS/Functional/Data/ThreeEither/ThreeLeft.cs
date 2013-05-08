@@ -18,6 +18,10 @@ namespace Sobbs.Functional.Data.ThreeEither
         {
             return fLeft.Invoke(Value);
         }
-    }
 
+        public override string ToString()
+        {
+            return "Left " + Value.ToString();
+        }
+    }
 }

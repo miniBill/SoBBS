@@ -14,5 +14,10 @@ namespace Sobbs.Config.Sizes
         {
             return new Percent(double.Parse(input.Substring(0, input.Length - 1)));
         }
+
+        public override string ToString()
+        {
+            return Value + "%";
+        }
     }
 }

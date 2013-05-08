@@ -27,17 +27,17 @@ namespace Sobbs.Config.Windows
             using (var file = File.Open(path, FileMode.Create))
             using (var writer = new StreamWriter(file))
             {
-                writer.WriteLine("[zones]");
+                writer.WriteLine("[Zones]");
                 writer.WriteLine("top   =  0");
                 writer.WriteLine("left  =  0");
                 writer.WriteLine("width = 30%");
                 writer.WriteLine("height=  *");
-                writer.WriteLine("[threads]");
+                writer.WriteLine("[Threads]");
                 writer.WriteLine("top   =  0");
                 writer.WriteLine("left  = 30%");
                 writer.WriteLine("width =  *");
                 writer.WriteLine("height= 50%");
-                writer.WriteLine("[messages]");
+                writer.WriteLine("[Messages]");
                 writer.WriteLine("top   = 50%");
                 writer.WriteLine("left  = 30%");
                 writer.WriteLine("width =  *");

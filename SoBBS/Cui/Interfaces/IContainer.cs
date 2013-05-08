@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using Sobbs.Cui.Info;
 
-namespace Sobbs.Cui
+namespace Sobbs.Cui.Interfaces
 {
     public interface IContainer : IWidget, IEnumerable<IWidget>
     {
-        void Add(FrameInfo info);
+        IFrame Add(FrameInfo info);
     }
 }

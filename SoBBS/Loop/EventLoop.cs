@@ -3,9 +3,8 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks.Schedulers;
-using Sobbs.Log;
 
-namespace Sobbs
+namespace Sobbs.Loop
 {
     public class EventLoop
     {
@@ -24,17 +23,11 @@ namespace Sobbs
 
         public void EnqueueLoop(Action iteration, int period = 1)
         {
-            Enqueue(async delegate
+            EnqueueCancelableLoop(() =>
             {
-                while (true)
-                {
-                    Logger.Log(LogLevel.Debug, "Iteration on thread" + Thread.CurrentThread.ManagedThreadId);
-                    iteration();
-                    await Task.Delay(period);
-                }
-                // ReSharper disable FunctionNeverReturns
+                iteration();
+                return true;
             });
-            // ReSharper restore FunctionNeverReturns
         }
 
         private readonly ConcurrentQueue<Action> _queue = new ConcurrentQueue<Action>();
@@ -44,20 +37,36 @@ namespace Sobbs
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                Logger.Log(LogLevel.Debug, "Mainloop on thread" + Thread.CurrentThread.ManagedThreadId);
                 Action current;
                 if (_queue.TryDequeue(out current))
                     current();
                 Thread.Sleep(1); // Don't busy wait
                 await Task.Yield();
             }
-            Logger.Log(LogLevel.Debug, "Mainloop done on thread" + Thread.CurrentThread.ManagedThreadId);
         }
 
         public void Join()
         {
             while (!_cancellationToken.IsCancellationRequested)
                 Thread.Sleep(10);
+        }
+
+        public void EnqueueCancelableLoop(Func<bool> iteration, int period = 0)
+        {
+            Enqueue(async delegate
+            {
+                while (true)
+                {
+                    if (!iteration())
+                        break;
+                    if (period > 0)
+                        await Task.Delay(period);
+                    else
+                        await Task.Yield();
+                }
+                // ReSharper disable FunctionNeverReturns
+            });
+            // ReSharper restore FunctionNeverReturns
         }
     }
 }
