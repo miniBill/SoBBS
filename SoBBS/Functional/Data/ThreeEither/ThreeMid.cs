@@ -21,7 +21,7 @@ namespace Sobbs.Functional.Data.ThreeEither
 
         public override string ToString()
         {
-            return "Mid " + Value.ToString();
+            return "Mid " + Value;
         }
     }
 }

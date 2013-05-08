@@ -1,6 +1,8 @@
 namespace Sobbs.Functional.Data.Maybe
 {
+    // ReSharper disable UnusedMember.Global
     public static class Operations
+    // ReSharper restore UnusedMember.Global
     {
         private static IMaybe<T> ToMaybe<T>(this T value) where T : class
         {

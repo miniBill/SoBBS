@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Sobbs.Functional.Data.ThreeEither;
 
 namespace Sobbs.Config.Sizes
@@ -60,7 +61,7 @@ namespace Sobbs.Config.Sizes
 
         public override string ToString()
         {
-            return Value.Either(i => i.ToString(), percent => percent.ToString(), star => star.ToString());
+            return Value.Either(i => i.ToString(CultureInfo.InvariantCulture), percent => percent.ToString(), star => star.ToString());
         }
     }
 }

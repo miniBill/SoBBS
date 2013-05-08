@@ -21,7 +21,7 @@ namespace Sobbs.Functional.Data.ThreeEither
 
         public override string ToString()
         {
-            return "Left " + Value.ToString();
+            return "Left " + Value;
         }
     }
 }

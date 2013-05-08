@@ -5,13 +5,13 @@ namespace Sobbs.Cui.Curses
 {
     public class CursesFrame : CursesContainer, IFrame
     {
-        public CursesFrame(Size x, Size y, Size width, Size height, string title, IContainer parent)
-            : base(x, y, width, height, parent)
+        public CursesFrame(Size x, Size y, Size width, Size height, string title)
+            : base(x, y, width, height)
         {
             Title = title;
         }
 
-        public string Title { get; private set; }
+        private string Title { get; set; }
 
         protected override void RefreshContainer(int x, int y, int width, int height)
         {

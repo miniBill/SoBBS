@@ -1,7 +1,6 @@
 using System.Collections;
 using Sobbs.Functional.Data.List;
 using System.Collections.Generic;
-using Sobbs.Functional.Data.Maybe;
 
 namespace Sobbs.Config.Windows
 {
@@ -12,7 +11,7 @@ namespace Sobbs.Config.Windows
             get; set;
         }
 
-        public IMaybe<WindowConfig> this[string key]
+        public IEnumerable<WindowConfig> this[string key]
         {
             get
             {

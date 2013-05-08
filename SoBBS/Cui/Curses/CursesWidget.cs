@@ -5,19 +5,17 @@ namespace Sobbs.Cui.Curses
 {
     public abstract class CursesWidget : IWidget
     {
-        public Size X { get; private set; }
-        public Size Y { get; private set; }
-        public Size Width { get; private set; }
-        public Size Height { get; private set; }
-        public IContainer Parent { get; private set; }
+        protected Size X { get; private set; }
+        protected Size Y { get; private set; }
+        protected Size Width { get; private set; }
+        protected Size Height { get; private set; }
 
-        protected CursesWidget(Size x, Size y, Size width, Size height, IContainer parent)
+        protected CursesWidget(Size x, Size y, Size width, Size height)
         {
             X = x;
             Y = y;
             Width = width;
             Height = height;
-            Parent = parent;
         }
 
         public abstract void Refresh(int px, int py, int pwidth, int pheight);

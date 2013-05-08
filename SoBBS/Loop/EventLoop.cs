@@ -16,18 +16,18 @@ namespace Sobbs.Loop
             _cancellationToken = cancellationToken;
         }
 
-        public void Enqueue(Action action)
+        private void Enqueue(Action action)
         {
             _queue.Enqueue(action);
         }
 
-        public void EnqueueLoop(Action iteration, int period = 1)
+        public void EnqueueLoop(Action iteration, int period = 0)
         {
             EnqueueCancelableLoop(() =>
             {
                 iteration();
                 return true;
-            });
+            }, period);
         }
 
         private readonly ConcurrentQueue<Action> _queue = new ConcurrentQueue<Action>();
@@ -64,9 +64,7 @@ namespace Sobbs.Loop
                     else
                         await Task.Yield();
                 }
-                // ReSharper disable FunctionNeverReturns
             });
-            // ReSharper restore FunctionNeverReturns
         }
     }
 }

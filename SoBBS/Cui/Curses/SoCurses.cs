@@ -1,6 +1,3 @@
-using System.Globalization;
-using Sobbs.Cui.Interfaces;
-
 namespace Sobbs.Cui.Curses
 {
     public static class SoCurses
@@ -16,20 +13,23 @@ namespace Sobbs.Cui.Curses
         private static void DrawFrame(int x1, int y1, int x2, int y2, uint h, uint v, uint tl, uint tr, uint bl, uint br)
         {
             var stdscr = CursesSharp.Curses.StdScr;
-            for (int x = x1; x < x2; x++)
+            for (int x = x1 + 1; x < x2; x++)
             {
-                stdscr.Insert(y1, x, h);
-                stdscr.Insert(y2, x, h);
+                stdscr.Add(y1, x, h);
+                stdscr.Add(y2, x, h);
             }
-            for (int y = y1; y < y2; y++)
+            for (int y = y1 + 1; y < y2; y++)
             {
-                stdscr.Insert(y, x1, v);
-                stdscr.Insert(y, x2, v);
+                stdscr.Add(y, x1, v);
+                stdscr.Add(y, x2, v);
             }
             stdscr.Add(y1, x1, tl);
-            stdscr.Insert(y1, x2, tr);
-            stdscr.Insert(y2, x1, bl);
-            stdscr.Insert(y2, x2, br);
+            stdscr.Add(y1, x2, tr);
+            stdscr.Add(y2, x1, bl);
+            if (y2 == CursesSharp.Curses.Lines - 1 && x2 == CursesSharp.Curses.Cols - 1)
+                stdscr.Insert(y2, x2, br);
+            else
+                stdscr.Add(y2, x2, br);
         }
 
         private const uint DoubleH = 0x2550u;

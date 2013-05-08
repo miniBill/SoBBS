@@ -10,8 +10,8 @@ namespace Sobbs.Cui.Curses
     {
         private readonly List<CursesWidget> _children = new List<CursesWidget>();
 
-        protected CursesContainer(Size x, Size y, Size width, Size height, IContainer parent)
-            : base(x, y, width, height, parent)
+        protected CursesContainer(Size x, Size y, Size width, Size height)
+            : base(x, y, width, height)
         {
         }
 
@@ -22,7 +22,7 @@ namespace Sobbs.Cui.Curses
 
         public IFrame Add(FrameInfo info)
         {
-            var frame = new CursesFrame(info.X, info.Y, info.Width, info.Height, info.Title, this);
+            var frame = new CursesFrame(info.X, info.Y, info.Width, info.Height, info.Title);
             _children.Add(frame);
             return frame;
         }
@@ -41,7 +41,7 @@ namespace Sobbs.Cui.Curses
             int w = x2 - x1 + 1;
             int h = y2 - y1 + 1;
             RefreshContainer(x1, y1, w, h);
-            RefreshChildren(x1, y1, w, h);
+            RefreshChildren(x1 + 1, y1 + 1, w - 2, h - 2);
         }
 
         protected abstract void RefreshContainer(int x, int y, int width, int height);

@@ -33,7 +33,7 @@ namespace Sobbs.Cui.Curses
             for (short i = 1; i < 8; ++i)
                 CursesSharp.Curses.InitPair(i, colorTable[i], Colors.BLACK);
 
-            MainContainer = new CursesFrame(Size.Zero, Size.Zero, Size.Star, Size.Star, title, null);
+            MainContainer = new CursesFrame(Size.Zero, Size.Zero, Size.Star, Size.Star, title);
         }
 
         public void Dispose()
