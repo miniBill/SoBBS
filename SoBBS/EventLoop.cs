@@ -2,14 +2,19 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks.Schedulers;
+using Sobbs.Log;
 
 namespace Sobbs
 {
     public class EventLoop
     {
-        public void Start()
+        public EventLoop(CancellationToken cancellationToken)
         {
-            new Task(() => AsyncPump.Run((Action)Update), TaskCreationOptions.LongRunning).Start();
+            var lcts = new LimitedConcurrencyLevelTaskScheduler(1);
+            var factory = new TaskFactory(lcts);
+            factory.StartNew(() => Update(cancellationToken), TaskCreationOptions.LongRunning);
+            _cancellationToken = cancellationToken;
         }
 
         public void Enqueue(Action action)
@@ -21,8 +26,9 @@ namespace Sobbs
         {
             Enqueue(async delegate
             {
-                for (; ; )
+                while (true)
                 {
+                    Logger.Log(LogLevel.Debug, "Iteration on thread" + Thread.CurrentThread.ManagedThreadId);
                     iteration();
                     await Task.Delay(period);
                 }
@@ -32,20 +38,27 @@ namespace Sobbs
         }
 
         private readonly ConcurrentQueue<Action> _queue = new ConcurrentQueue<Action>();
+        private CancellationToken _cancellationToken;
 
-        private async void Update()
+        private async Task Update(CancellationToken cancellationToken)
         {
-            for (; ; )
+            while (!cancellationToken.IsCancellationRequested)
             {
+                Logger.Log(LogLevel.Debug, "Mainloop on thread" + Thread.CurrentThread.ManagedThreadId);
                 Action current;
                 if (_queue.TryDequeue(out current))
                     current();
                 Thread.Sleep(1); // Don't busy wait
-                await Task.Delay(0); // Yield to continuations
+                await Task.Yield();
             }
-            // ReSharper disable FunctionNeverReturns
+            Logger.Log(LogLevel.Debug, "Mainloop done on thread" + Thread.CurrentThread.ManagedThreadId);
         }
-        // ReSharper restore FunctionNeverReturns
+
+        public void Join()
+        {
+            while (!_cancellationToken.IsCancellationRequested)
+                Thread.Sleep(10);
+        }
     }
 }
 

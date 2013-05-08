@@ -1,166 +1,133 @@
-using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Linq;
 
-namespace Sobbs
+namespace System.Threading.Tasks.Schedulers
 {
-    /// <summary>Provides a pump that supports running asynchronous methods on the current thread.</summary>
-    public static class AsyncPump
+    /// <summary> 
+    /// Provides a task scheduler that ensures a maximum concurrency level while 
+    /// running on top of the ThreadPool. 
+    /// </summary> 
+    public class LimitedConcurrencyLevelTaskScheduler : TaskScheduler
     {
-        /// <summary>Runs the specified asynchronous method.</summary>
-        /// <param name="asyncMethod">The asynchronous method to execute.</param>
-        public static void Run(Action asyncMethod)
+        /// <summary>Whether the current thread is processing work items.</summary>
+        [ThreadStatic]
+        private static bool _currentThreadIsProcessingItems;
+        /// <summary>The list of tasks to be executed.</summary> 
+        private readonly LinkedList<Task> _tasks = new LinkedList<Task>(); // protected by lock(_tasks) 
+        /// <summary>The maximum concurrency level allowed by this scheduler.</summary> 
+        private readonly int _maxDegreeOfParallelism;
+        /// <summary>Whether the scheduler is currently processing work items.</summary> 
+        private int _delegatesQueuedOrRunning = 0; // protected by lock(_tasks) 
+
+        /// <summary> 
+        /// Initializes an instance of the LimitedConcurrencyLevelTaskScheduler class with the 
+        /// specified degree of parallelism. 
+        /// </summary> 
+        /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism provided by this scheduler.</param>
+        public LimitedConcurrencyLevelTaskScheduler(int maxDegreeOfParallelism)
         {
-            if (asyncMethod == null)
-                throw new ArgumentNullException("asyncMethod");
-
-            var prevCtx = SynchronizationContext.Current;
-            try
-            {
-                // Establish the new context
-                var syncCtx = new SingleThreadSynchronizationContext(true);
-                SynchronizationContext.SetSynchronizationContext(syncCtx);
-
-                // Invoke the function
-                syncCtx.OperationStarted();
-                asyncMethod();
-                syncCtx.OperationCompleted();
-
-                // Pump continuations and propagate any exceptions
-                syncCtx.RunOnCurrentThread();
-            } finally
-            {
-                SynchronizationContext.SetSynchronizationContext(prevCtx);
-            }
+            if (maxDegreeOfParallelism < 1) throw new ArgumentOutOfRangeException("maxDegreeOfParallelism");
+            _maxDegreeOfParallelism = maxDegreeOfParallelism;
         }
 
-        /// <summary>Runs the specified asynchronous method.</summary>
-        /// <param name="asyncMethod">The asynchronous method to execute.</param>
-        public static void Run(Func<Task> asyncMethod)
+        /// <summary>Queues a task to the scheduler.</summary> 
+        /// <param name="task">The task to be queued.</param>
+        protected sealed override void QueueTask(Task task)
         {
-            if (asyncMethod == null)
-                throw new ArgumentNullException("asyncMethod");
-
-            var prevCtx = SynchronizationContext.Current;
-            try
+            // Add the task to the list of tasks to be processed.  If there aren't enough 
+            // delegates currently queued or running to process tasks, schedule another. 
+            lock (_tasks)
             {
-                // Establish the new context
-                var syncCtx = new SingleThreadSynchronizationContext(false);
-                SynchronizationContext.SetSynchronizationContext(syncCtx);
-
-                // Invoke the function and alert the context to when it completes
-                var t = asyncMethod();
-                if (t == null)
-                    throw new InvalidOperationException("No task provided.");
-                t.ContinueWith(delegate
+                _tasks.AddLast(task);
+                if (_delegatesQueuedOrRunning < _maxDegreeOfParallelism)
                 {
-                    syncCtx.Complete();
-                }, TaskScheduler.Default);
-
-                // Pump continuations and propagate any exceptions
-                syncCtx.RunOnCurrentThread();
-                t.GetAwaiter().GetResult();
-            } finally
-            {
-                SynchronizationContext.SetSynchronizationContext(prevCtx);
+                    ++_delegatesQueuedOrRunning;
+                    NotifyThreadPoolOfPendingWork();
+                }
             }
         }
 
-        /// <summary>Runs the specified asynchronous method.</summary>
-        /// <param name="asyncMethod">The asynchronous method to execute.</param>
-        public static T Run<T>(Func<Task<T>> asyncMethod)
+        /// <summary> 
+        /// Informs the ThreadPool that there's work to be executed for this scheduler. 
+        /// </summary> 
+        private void NotifyThreadPoolOfPendingWork()
         {
-            if (asyncMethod == null)
-                throw new ArgumentNullException("asyncMethod");
+            ThreadPool.UnsafeQueueUserWorkItem(_ =>
+            {
+                // Note that the current thread is now processing work items. 
+                // This is necessary to enable inlining of tasks into this thread.
+                _currentThreadIsProcessingItems = true;
+                try
+                {
+                    // Process all available items in the queue. 
+                    while (true)
+                    {
+                        Task item;
+                        lock (_tasks)
+                        {
+                            // When there are no more items to be processed, 
+                            // note that we're done processing, and get out. 
+                            if (_tasks.Count == 0)
+                            {
+                                --_delegatesQueuedOrRunning;
+                                break;
+                            }
 
-            var prevCtx = SynchronizationContext.Current;
+                            // Get the next item from the queue
+                            item = _tasks.First.Value;
+                            _tasks.RemoveFirst();
+                        }
+
+                        // Execute the task we pulled out of the queue 
+                        base.TryExecuteTask(item);
+                    }
+                }
+                // We're done processing items on the current thread 
+                finally { _currentThreadIsProcessingItems = false; }
+            }, null);
+        }
+
+        /// <summary>Attempts to execute the specified task on the current thread.</summary> 
+        /// <param name="task">The task to be executed.</param>
+        /// <param name="taskWasPreviouslyQueued"></param>
+        /// <returns>Whether the task could be executed on the current thread.</returns> 
+        protected sealed override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
+        {
+            // If this thread isn't already processing a task, we don't support inlining 
+            if (!_currentThreadIsProcessingItems) return false;
+
+            // If the task was previously queued, remove it from the queue 
+            if (taskWasPreviouslyQueued) TryDequeue(task);
+
+            // Try to run the task. 
+            return base.TryExecuteTask(task);
+        }
+
+        /// <summary>Attempts to remove a previously scheduled task from the scheduler.</summary> 
+        /// <param name="task">The task to be removed.</param>
+        /// <returns>Whether the task could be found and removed.</returns> 
+        protected sealed override bool TryDequeue(Task task)
+        {
+            lock (_tasks) return _tasks.Remove(task);
+        }
+
+        /// <summary>Gets the maximum concurrency level supported by this scheduler.</summary> 
+        public sealed override int MaximumConcurrencyLevel { get { return _maxDegreeOfParallelism; } }
+
+        /// <summary>Gets an enumerable of the tasks currently scheduled on this scheduler.</summary> 
+        /// <returns>An enumerable of the tasks currently scheduled.</returns> 
+        protected sealed override IEnumerable<Task> GetScheduledTasks()
+        {
+            bool lockTaken = false;
             try
             {
-                // Establish the new context
-                var syncCtx = new SingleThreadSynchronizationContext(false);
-                SynchronizationContext.SetSynchronizationContext(syncCtx);
-
-                // Invoke the function and alert the context to when it completes
-                var t = asyncMethod();
-                if (t == null)
-                    throw new InvalidOperationException("No task provided.");
-                t.ContinueWith(delegate
-                {
-                    syncCtx.Complete();
-                }, TaskScheduler.Default);
-
-                // Pump continuations and propagate any exceptions
-                syncCtx.RunOnCurrentThread();
-                return t.GetAwaiter().GetResult();
-            } finally
-            {
-                SynchronizationContext.SetSynchronizationContext(prevCtx);
+                Monitor.TryEnter(_tasks, ref lockTaken);
+                if (lockTaken) return _tasks.ToArray();
+                else throw new NotSupportedException();
             }
-        }
-
-        /// <summary>Provides a SynchronizationContext that's single-threaded.</summary>
-        private sealed class SingleThreadSynchronizationContext : SynchronizationContext
-        {
-            /// <summary>The queue of work items.</summary>
-            private readonly BlockingCollection<KeyValuePair<SendOrPostCallback, object>> _queue =
-                new BlockingCollection<KeyValuePair<SendOrPostCallback, object>>();
-
-            /// <summary>The number of outstanding operations.</summary>
-            private int _operationCount = 0;
-            /// <summary>Whether to track operations _operationCount.</summary>
-            private readonly bool _trackOperations;
-
-            /// <summary>Initializes the context.</summary>
-            /// <param name="trackOperations">Whether to track operation count.</param>
-            internal SingleThreadSynchronizationContext(bool trackOperations)
+            finally
             {
-                _trackOperations = trackOperations;
-            }
-
-            /// <summary>Dispatches an asynchronous message to the synchronization context.</summary>
-            /// <param name="d">The System.Threading.SendOrPostCallback delegate to call.</param>
-            /// <param name="state">The object passed to the delegate.</param>
-            public override void Post(SendOrPostCallback d, object state)
-            {
-                if (d == null)
-                    throw new ArgumentNullException("d");
-                _queue.Add(new KeyValuePair<SendOrPostCallback, object>(d, state));
-            }
-
-            /// <summary>Not supported.</summary>
-            public override void Send(SendOrPostCallback d, object state)
-            {
-                throw new NotSupportedException("Synchronously sending is not supported.");
-            }
-
-            /// <summary>Runs an loop to process all queued work items.</summary>
-            public void RunOnCurrentThread()
-            {
-                foreach (var workItem in _queue.GetConsumingEnumerable())
-                    workItem.Key(workItem.Value);
-            }
-
-            /// <summary>Notifies the context that no more work will arrive.</summary>
-            public void Complete()
-            {
-                _queue.CompleteAdding();
-            }
-
-            /// <summary>Invoked when an async operation is started.</summary>
-            public override void OperationStarted()
-            {
-                if (_trackOperations)
-                    Interlocked.Increment(ref _operationCount);
-            }
-
-            /// <summary>Invoked when an async operation is completed.</summary>
-            public override void OperationCompleted()
-            {
-                if (_trackOperations &&
-                    Interlocked.Decrement(ref _operationCount) == 0)
-                    Complete();
+                if (lockTaken) Monitor.Exit(_tasks);
             }
         }
     }

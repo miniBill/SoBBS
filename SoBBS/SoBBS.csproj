@@ -33,23 +33,22 @@
     <DefineConstants>__MONO_CS__</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CursesSharp">
+      <HintPath>.\CursesSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cui\Forms\FormContainer.cs" />
-    <Compile Include="Cui\Forms\FormListView.cs" />
     <Compile Include="Cui\IListView.cs" />
     <Compile Include="Cui\IFrame.cs" />
-    <Compile Include="Cui\KeyPressedEventHandler.cs" />
     <Compile Include="Cui\FrameInfo.cs" />
-    <Compile Include="Cui\Forms\FormWidget.cs" />
     <Compile Include="Cui\IContainer.cs" />
     <Compile Include="Cui\IWidget.cs" />
-    <Compile Include="Cui\Forms\FormFrame.cs" />
     <Compile Include="Cui\WidgetInfo.cs" />
+    <Compile Include="CursesExample.cs" />
     <Compile Include="Functional\Data\Either\IEither.cs" />
     <Compile Include="Functional\Data\Maybe\Just.cs" />
     <Compile Include="Functional\Data\Either\Left.cs" />
@@ -77,20 +76,12 @@
     <Compile Include="Functional\Data\ThreeEither\ThreeRight.cs" />
     <Compile Include="Config\Windows\WindowsConfig.cs" />
     <Compile Include="Functional\FuncExtensions.cs" />
-    <Compile Include="Cui\KeyPressedEventArgs.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Log\LogLevel.cs" />
     <Compile Include="Log\ILogProvider.cs" />
     <Compile Include="Log\TcpServerLog.cs" />
     <Compile Include="Log\TcpClientLog.cs" />
-    <Compile Include="Cui\Curses\CursesFrame.cs" />
-    <Compile Include="Cui\AbstractSimpleListProvider.cs" />
-    <Compile Include="Cui\Curses\LabelListProvider.cs" />
-    <Compile Include="Cui\ListItemProvider.cs" />
-    <Compile Include="Cui\Curses\IListItem.cs" />
-    <Compile Include="Cui\StringItem.cs" />
     <Compile Include="Functional\EnumerableExtensions.cs" />
-    <Compile Include="Cui\SoApplication.cs" />
     <Compile Include="OldMain.cs" />
     <Compile Include="Pump.cs" />
     <Compile Include="Main.cs" />
@@ -100,14 +91,12 @@
     <Compile Include="CursesApplication.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup />
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\mono-curses\mono-curses.csproj">
-      <Project>{B1089A76-F6BE-4F5B-AD31-3296CD5CD922}</Project>
-      <Name>mono-curses</Name>
-    </ProjectReference>
+    <None Include="CursesWrapper.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
+  <ItemGroup />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
