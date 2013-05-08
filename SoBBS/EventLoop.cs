@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using Microsoft.Threading;
 using System.Threading;
 
 namespace Sobbs
@@ -15,35 +14,38 @@ namespace Sobbs
 
         public void Enqueue(Action action)
         {
-            queue.Enqueue(action);
+            _queue.Enqueue(action);
         }
 
         public void EnqueueLoop(Action iteration, int period = 1)
         {
             Enqueue(async delegate
             {
-                for (;;)
+                for (; ; )
                 {
                     iteration();
                     await Task.Delay(period);
                 }
-            }
-            );
+                // ReSharper disable FunctionNeverReturns
+            });
+            // ReSharper restore FunctionNeverReturns
         }
 
-        private readonly ConcurrentQueue<Action> queue = new ConcurrentQueue<Action>();
+        private readonly ConcurrentQueue<Action> _queue = new ConcurrentQueue<Action>();
 
-        public async void Update()
+        private async void Update()
         {
-            for (;;)
+            for (; ; )
             {
                 Action current;
-                if (queue.TryDequeue(out current))
+                if (_queue.TryDequeue(out current))
                     current();
                 Thread.Sleep(1); // Don't busy wait
                 await Task.Delay(0); // Yield to continuations
             }
+            // ReSharper disable FunctionNeverReturns
         }
+        // ReSharper restore FunctionNeverReturns
     }
 }
 

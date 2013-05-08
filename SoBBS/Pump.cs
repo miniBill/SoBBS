@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Threading
+namespace Sobbs
 {
     /// <summary>Provides a pump that supports running asynchronous methods on the current thread.</summary>
     public static class AsyncPump
@@ -104,20 +104,19 @@ namespace Microsoft.Threading
         private sealed class SingleThreadSynchronizationContext : SynchronizationContext
         {
             /// <summary>The queue of work items.</summary>
-            private readonly BlockingCollection<KeyValuePair<SendOrPostCallback, object>> m_queue =
+            private readonly BlockingCollection<KeyValuePair<SendOrPostCallback, object>> _queue =
                 new BlockingCollection<KeyValuePair<SendOrPostCallback, object>>();
-            /// <summary>The processing thread.</summary>
-            private readonly Thread m_thread = Thread.CurrentThread;
+
             /// <summary>The number of outstanding operations.</summary>
-            private int m_operationCount = 0;
-            /// <summary>Whether to track operations m_operationCount.</summary>
-            private readonly bool m_trackOperations;
+            private int _operationCount = 0;
+            /// <summary>Whether to track operations _operationCount.</summary>
+            private readonly bool _trackOperations;
 
             /// <summary>Initializes the context.</summary>
             /// <param name="trackOperations">Whether to track operation count.</param>
             internal SingleThreadSynchronizationContext(bool trackOperations)
             {
-                m_trackOperations = trackOperations;
+                _trackOperations = trackOperations;
             }
 
             /// <summary>Dispatches an asynchronous message to the synchronization context.</summary>
@@ -127,7 +126,7 @@ namespace Microsoft.Threading
             {
                 if (d == null)
                     throw new ArgumentNullException("d");
-                m_queue.Add(new KeyValuePair<SendOrPostCallback, object>(d, state));
+                _queue.Add(new KeyValuePair<SendOrPostCallback, object>(d, state));
             }
 
             /// <summary>Not supported.</summary>
@@ -139,28 +138,28 @@ namespace Microsoft.Threading
             /// <summary>Runs an loop to process all queued work items.</summary>
             public void RunOnCurrentThread()
             {
-                foreach (var workItem in m_queue.GetConsumingEnumerable())
+                foreach (var workItem in _queue.GetConsumingEnumerable())
                     workItem.Key(workItem.Value);
             }
 
             /// <summary>Notifies the context that no more work will arrive.</summary>
             public void Complete()
             {
-                m_queue.CompleteAdding();
+                _queue.CompleteAdding();
             }
 
             /// <summary>Invoked when an async operation is started.</summary>
             public override void OperationStarted()
             {
-                if (m_trackOperations)
-                    Interlocked.Increment(ref m_operationCount);
+                if (_trackOperations)
+                    Interlocked.Increment(ref _operationCount);
             }
 
             /// <summary>Invoked when an async operation is completed.</summary>
             public override void OperationCompleted()
             {
-                if (m_trackOperations &&
-                    Interlocked.Decrement(ref m_operationCount) == 0)
+                if (_trackOperations &&
+                    Interlocked.Decrement(ref _operationCount) == 0)
                     Complete();
             }
         }

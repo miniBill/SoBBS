@@ -1,7 +1,3 @@
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-
 namespace Sobbs.Cui.Forms
 {/*
     public class FormFrame : FormContainer, IFrame

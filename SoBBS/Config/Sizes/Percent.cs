@@ -2,12 +2,13 @@ namespace Sobbs.Config.Sizes
 {
     public struct Percent
     {
-        public readonly double Value;
-
         private Percent(double value)
+            : this()
         {
             Value = value;
         }
+
+        public double Value { get; private set; }
 
         public static Percent Parse(string input)
         {

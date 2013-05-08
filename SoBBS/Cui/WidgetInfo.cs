@@ -1,8 +1,10 @@
+using Sobbs.Config.Sizes;
+
 namespace Sobbs.Cui
 {
-    public class WidgetInfo
+    public abstract class WidgetInfo
     {
-        public WidgetInfo(int x, int y, int width, int height)
+        protected WidgetInfo(Size x, Size y, Size width, Size height)
         {
             X = x;
             Y = y;
@@ -10,9 +12,9 @@ namespace Sobbs.Cui
             Height = height;
         }
 
-        public int X { get; private set; }
-        public int Y { get; private set; }
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        public Size X { get; private set; }
+        public Size Y { get; private set; }
+        public Size Width { get; private set; }
+        public Size Height { get; private set; }
     }
 }

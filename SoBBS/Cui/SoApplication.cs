@@ -1,6 +1,5 @@
 #if __MONO_CS__
-using Mono.Terminal;
-using Sobbs.Cui.Curses;
+
 #else
 using System.Windows.Forms;
 using Sobbs.Cui.Forms;

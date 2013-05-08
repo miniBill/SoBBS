@@ -18,7 +18,7 @@ namespace Sobbs.Functional
                 };
         }
 
-        public static Action<T> Curry<T, U>(this Action<T, U> action, U parameter)
+        public static Action<TFirst> Curry<TFirst, TSecond>(this Action<TFirst, TSecond> action, TSecond parameter)
         {
             return arg1 => action(arg1, parameter);
         }

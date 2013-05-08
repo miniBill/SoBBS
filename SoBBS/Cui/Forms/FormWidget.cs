@@ -1,5 +1,3 @@
-using System.Windows.Forms;
-
 namespace Sobbs.Cui.Forms
 {/*
     public class FormWidget : Control, IWidget

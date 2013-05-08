@@ -1,5 +1,3 @@
-using System;
-
 namespace Sobbs.Cui
 {
     public interface IFrame : IContainer

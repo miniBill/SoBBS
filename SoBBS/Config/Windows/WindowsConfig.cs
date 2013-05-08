@@ -1,3 +1,4 @@
+using System.Collections;
 using Sobbs.Functional.Data.List;
 using System.Collections.Generic;
 using Sobbs.Functional.Data.Maybe;
@@ -24,12 +25,12 @@ namespace Sobbs.Config.Windows
             Configurations = configurations;
         }
 
-        public System.Collections.IEnumerator GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
-        IEnumerator<WindowConfig> IEnumerable<WindowConfig>.GetEnumerator()
+        public IEnumerator<WindowConfig> GetEnumerator()
         {
             return Configurations.GetEnumerator();
         }

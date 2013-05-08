@@ -1,19 +1,8 @@
-using System;
-using System.IO;
-using System.Linq;
-using Mono.Terminal;
-using Sobbs.Config.Sizes;
-using Sobbs.Config.Windows;
-using Sobbs.Cui;
 #if __MONO_CS__
-using Sobbs.Cui.Curses;
 #else
 using Sobbs.Cui.Forms;
 #endif
-using Sobbs.Functional;
-using Sobbs.Functional.Data.Maybe;
-using Sobbs.Log;
-using System.Threading;
+
 /*
 namespace Sobbs
 {
@@ -182,21 +171,6 @@ namespace Sobbs
             provider.Clear();
             foreach (var dir in Directory.EnumerateDirectories(path))
                 provider.Add(new StringItem(Path.GetFileName(dir)));
-        }
-
-        private static FrameInfo CreateContainer(WindowConfig conf, string name, int width, int height)
-        {
-            Func<int, int> id = FuncExtensions.Identity<int>();
-            Func<Star, int> zero = FuncExtensions.Constant<Star, int>(0);
-            Func<Percent, int> widthPercent = perc => (int)Math.Round(width * perc.Value / 100.0);
-            Func<Percent, int> heightPercent = perc => (int)Math.Round(height * perc.Value / 100.0);
-
-            int x = conf.Left.Either(id, widthPercent, zero);
-            int y = conf.Top.Either(id, heightPercent, zero);
-            int w = conf.Width.Either(id, widthPercent, star => width - x);
-            int h = conf.Height.Either(id, heightPercent, star => height - y);
-
-            return new FrameInfo(x + 1, y + 1, w, h, name);
         }
     }
 }

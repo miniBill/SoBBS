@@ -1,23 +1,20 @@
 using System;
-using Microsoft.Threading;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
 using Sobbs.Config.Windows;
 using System.IO;
+using Sobbs.Cui;
 using Sobbs.Log;
 using System.Linq;
 using Sobbs.Functional;
-using Sobbs.Cui;
-using Sobbs.Cui.Curses;
 
 namespace Sobbs
 {
     public static class MainClass
     {
-        public static void CreateWindow(WindowConfig config, IApplication application)
+        private static void CreateWindow(WindowConfig config, IApplication application)
         {
-            var frame = application.WidgetFactory.CreateFrame(config);
+            var info = new FrameInfo(config.Left, config.Top, config.Height, config.Width, config.Name);
+            application.MainContainer.Add(info);
         }
 
         public static void Main()
@@ -28,12 +25,11 @@ namespace Sobbs
             loop.EnqueueLoop(() => Logger.Log(LogLevel.Debug, "--Beat--"), period: 1000);
 
             WindowsConfig config = LoadConfig();
-            var maybeZones = config ["zones"];
-            var maybeThreads = config ["threads"];
-            var maybeMessages = config ["messages"];
+            var maybeZones = config["zones"];
+            var maybeThreads = config["threads"];
+            var maybeMessages = config["messages"];
 
             IApplication application = new CursesApplication();
-            IWidgetFactory factory = application.WidgetFactory;
 
             var creator = ((Action<WindowConfig, IApplication>)CreateWindow).Curry(application);
             maybeZones.Concat(maybeThreads).Concat(maybeMessages).ForEach(creator);

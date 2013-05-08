@@ -1,4 +1,3 @@
-using System;
 using Sobbs.Cui.Curses;
 
 namespace Sobbs.Cui

@@ -39,25 +39,16 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cui\Forms\FormContainer.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Cui\Forms\FormListView.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Cui\Forms\FormContainer.cs" />
+    <Compile Include="Cui\Forms\FormListView.cs" />
     <Compile Include="Cui\IListView.cs" />
-    <Compile Include="Cui\ListViewInfo.cs" />
     <Compile Include="Cui\IFrame.cs" />
     <Compile Include="Cui\KeyPressedEventHandler.cs" />
     <Compile Include="Cui\FrameInfo.cs" />
-    <Compile Include="Cui\Forms\FormWidget.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Cui\Forms\FormWidget.cs" />
     <Compile Include="Cui\IContainer.cs" />
     <Compile Include="Cui\IWidget.cs" />
-    <Compile Include="Cui\Forms\FormFrame.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Cui\Forms\FormFrame.cs" />
     <Compile Include="Cui\WidgetInfo.cs" />
     <Compile Include="Functional\Data\Either\IEither.cs" />
     <Compile Include="Functional\Data\Maybe\Just.cs" />
@@ -100,16 +91,13 @@
     <Compile Include="Cui\StringItem.cs" />
     <Compile Include="Functional\EnumerableExtensions.cs" />
     <Compile Include="Cui\SoApplication.cs" />
-    <Compile Include="Cui\Worker.cs" />
     <Compile Include="OldMain.cs" />
     <Compile Include="Pump.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="EventLoop.cs" />
     <Compile Include="Functional\Data\Maybe\IMaybe.cs" />
-    <Compile Include="IPlatform.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="CursesApplication.cs" />
-    <Compile Include="IWidgetFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

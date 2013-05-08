@@ -27,7 +27,7 @@ namespace Sobbs.Cui
         {
         }
 
-        public T this[int index]
+        protected T this[int index]
         {
             get
             {
