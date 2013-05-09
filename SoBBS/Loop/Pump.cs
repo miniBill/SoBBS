@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace System.Threading.Tasks.Schedulers
 {
@@ -7,6 +8,7 @@ namespace System.Threading.Tasks.Schedulers
     /// Provides a task scheduler that ensures a maximum concurrency level while 
     /// running on top of the ThreadPool. 
     /// </summary> 
+    [ComVisible(false)]
     public class LimitedConcurrencyLevelTaskScheduler : TaskScheduler
     {
         /// <summary>Whether the current thread is processing work items.</summary>

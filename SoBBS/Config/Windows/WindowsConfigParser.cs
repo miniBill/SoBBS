@@ -24,8 +24,7 @@ namespace Sobbs.Config.Windows
 
         public static void CreateDefaultConfig(string path)
         {
-            using (var file = File.Open(path, FileMode.Create))
-            using (var writer = new StreamWriter(file))
+            using (var writer = new StreamWriter(path, false))
             {
                 writer.WriteLine("[Zones]");
                 writer.WriteLine("top   =  0");

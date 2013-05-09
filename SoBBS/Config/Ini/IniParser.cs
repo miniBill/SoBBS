@@ -79,7 +79,8 @@ namespace Sobbs.Config.Ini
         }
     }
 
-    class InternalIniParserException : Exception
+    [Serializable]
+    internal class InternalIniParserException : Exception
     {
         public InternalIniParserException(string message)
             : base(message)
