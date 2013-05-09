@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="Cui\Curses\Sizer.cs" />
     <Compile Include="Cui\Curses\SoCurses.cs" />
-    <Compile Include="Cui\Interfaces\IListView.cs" />
     <Compile Include="Cui\Interfaces\IFrame.cs" />
     <Compile Include="Cui\Info\FrameInfo.cs" />
     <Compile Include="Cui\Interfaces\IContainer.cs" />
