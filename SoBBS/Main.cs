@@ -6,7 +6,6 @@ using System.Linq;
 using Sobbs.Cui;
 using Sobbs.Cui.Interfaces;
 using Sobbs.Functional;
-using Sobbs.Loop;
 using Sobbs.Cui.Widgets;
 using MinCurses;
 

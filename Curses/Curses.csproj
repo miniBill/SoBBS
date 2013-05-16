@@ -9,6 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MinCurses</RootNamespace>
     <AssemblyName>Curses</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
