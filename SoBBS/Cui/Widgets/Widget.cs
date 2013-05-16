@@ -1,16 +1,16 @@
 using Sobbs.Config.Sizes;
 using Sobbs.Cui.Interfaces;
 
-namespace Sobbs.Cui.Curses
+namespace Sobbs.Cui.Widgets
 {
-    public abstract class CursesWidget : IWidget
+    public abstract class Widget : IWidget
     {
         protected Size X { get; private set; }
         protected Size Y { get; private set; }
         protected Size Width { get; private set; }
         protected Size Height { get; private set; }
 
-        protected CursesWidget(Size x, Size y, Size width, Size height)
+        protected Widget(Size x, Size y, Size width, Size height)
         {
             X = x;
             Y = y;

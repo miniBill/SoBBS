@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sobbs.Config.Sizes;
-using Sobbs.Cui.Info;
 using Sobbs.Cui.Interfaces;
 
-namespace Sobbs.Cui.Curses
+namespace Sobbs.Cui.Widgets
 {
-    public abstract class CursesContainer : CursesWidget, IContainer
+    public abstract class Container : Widget, IContainer
     {
-        private readonly List<CursesWidget> _children = new List<CursesWidget>();
+        private readonly List<IWidget> _children = new List<IWidget>();
 
-        protected CursesContainer(Size x, Size y, Size width, Size height)
+        protected Container(Size x, Size y, Size width, Size height)
             : base(x, y, width, height)
         {
         }
@@ -20,11 +19,9 @@ namespace Sobbs.Cui.Curses
             return _children.GetEnumerator();
         }
 
-        public IFrame Add(FrameInfo info)
+        public void Add(IWidget widget)
         {
-            var frame = new CursesFrame(info.X, info.Y, info.Width, info.Height, info.Title);
-            _children.Add(frame);
-            return frame;
+            _children.Add(widget);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

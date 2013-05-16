@@ -33,25 +33,14 @@
     <DefineConstants>__MONO_CS__</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CursesSharp">
-      <HintPath>CursesSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cui\Curses\Sizer.cs" />
-    <Compile Include="Cui\Curses\SoCurses.cs" />
     <Compile Include="Cui\Interfaces\IFrame.cs" />
-    <Compile Include="Cui\Info\FrameInfo.cs" />
     <Compile Include="Cui\Interfaces\IContainer.cs" />
     <Compile Include="Cui\Interfaces\IWidget.cs" />
-    <Compile Include="Cui\Info\WidgetInfo.cs" />
-    <Compile Include="Cui\Curses\CursesContainer.cs" />
-    <Compile Include="Cui\Curses\CursesFrame.cs" />
-    <Compile Include="Cui\Curses\CursesWidget.cs" />
     <Compile Include="Functional\Data\Either\IEither.cs" />
     <Compile Include="Functional\Data\Maybe\Just.cs" />
     <Compile Include="Functional\Data\Either\Left.cs" />
@@ -90,14 +79,13 @@
     <Compile Include="Loop\EventLoop.cs" />
     <Compile Include="Functional\Data\Maybe\IMaybe.cs" />
     <Compile Include="Cui\Interfaces\IApplication.cs" />
-    <Compile Include="Cui\Curses\CursesApplication.cs" />
+    <Compile Include="Cui\Widgets\Sizer.cs" />
+    <Compile Include="Cui\Widgets\Application.cs" />
+    <Compile Include="Cui\Widgets\Container.cs" />
+    <Compile Include="Cui\Widgets\Frame.cs" />
+    <Compile Include="Cui\Widgets\Widget.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <None Include="CursesWrapper.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
   <ItemGroup />
   <ProjectExtensions>
     <MonoDevelop>
@@ -109,4 +97,10 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\Curses\Curses.csproj">
+      <Project>{AAA0A2B8-C020-46A3-A36B-DBD144B603C2}</Project>
+      <Name>Curses</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

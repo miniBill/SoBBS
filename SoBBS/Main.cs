@@ -1,14 +1,13 @@
 using System;
 using System.Threading;
-using CursesSharp;
 using Sobbs.Config.Windows;
 using System.IO;
 using System.Linq;
-using Sobbs.Cui.Curses;
-using Sobbs.Cui.Info;
 using Sobbs.Cui.Interfaces;
 using Sobbs.Functional;
 using Sobbs.Loop;
+using Sobbs.Cui.Widgets;
+using MinCurses;
 
 namespace Sobbs
 {
@@ -16,8 +15,8 @@ namespace Sobbs
     {
         private static void CreateWindow(WindowConfig config, IApplication application)
         {
-            var info = new FrameInfo(config.Left, config.Top, config.Width, config.Height, config.Name);
-            application.MainContainer.Add(info);
+            var frame = new Frame(config.Left, config.Top, config.Width, config.Height, config.Name);
+            application.MainContainer.Add(frame);
         }
 
         public static void Main()
@@ -30,7 +29,7 @@ namespace Sobbs
             var maybeThreads = config["Threads"];
             var maybeMessages = config["Messages"];
 
-            using (IApplication application = new CursesApplication("SoBBS"))
+            using (IApplication application = new Application("SoBBS"))
             {
                 var creator = ((Action<WindowConfig, IApplication>)CreateWindow).Curry(application);
                 maybeZones.Concat(maybeThreads).Concat(maybeMessages).ForEach(creator);
@@ -39,7 +38,7 @@ namespace Sobbs
 
                 loop.EnqueueCancelableLoop(() =>
                     {
-                        if (Curses.StdScr.GetChar() == 'q')
+                        if (Curses.GetChar() == 'q')
                         {
                             cancellationTokenSource.Cancel();
                             return false;

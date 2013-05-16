@@ -1,6 +1,6 @@
 using Sobbs.Config.Sizes;
 
-namespace Sobbs.Cui.Curses
+namespace Sobbs.Cui.Widgets
 {
     public static class Sizer
     {

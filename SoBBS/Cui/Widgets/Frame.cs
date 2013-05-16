@@ -1,11 +1,12 @@
 using Sobbs.Config.Sizes;
 using Sobbs.Cui.Interfaces;
+using MinCurses;
 
-namespace Sobbs.Cui.Curses
+namespace Sobbs.Cui.Widgets
 {
-    public class CursesFrame : CursesContainer, IFrame
+    public class Frame : Container, IFrame
     {
-        public CursesFrame(Size x, Size y, Size width, Size height, string title)
+        public Frame(Size x, Size y, Size width, Size height, string title)
             : base(x, y, width, height)
         {
             Title = title;
@@ -15,8 +16,8 @@ namespace Sobbs.Cui.Curses
 
         protected override void RefreshContainer(int x, int y, int width, int height)
         {
-            SoCurses.DrawFrame(x, y, x + width - 1, y + height - 1);
-            CursesSharp.Curses.StdScr.Add(y, x + 1, " " + Title + " ");
+            Curses.DrawFrame(x, y, x + width - 1, y + height - 1);
+            Curses.Put(y,x+1, " " + Title + " ");
         }
     }
 }

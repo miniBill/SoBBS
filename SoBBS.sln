@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoBBS", "SoBBS\SoBBS.csproj", "{14D640F8-AA17-4846-9B95-1162C43F81CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Curses", "Curses\Curses.csproj", "{AAA0A2B8-C020-46A3-A36B-DBD144B603C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{14D640F8-AA17-4846-9B95-1162C43F81CA}.Debug|x86.Build.0 = Debug|x86
 		{14D640F8-AA17-4846-9B95-1162C43F81CA}.Release|x86.ActiveCfg = Release|x86
 		{14D640F8-AA17-4846-9B95-1162C43F81CA}.Release|x86.Build.0 = Release|x86
+		{AAA0A2B8-C020-46A3-A36B-DBD144B603C2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AAA0A2B8-C020-46A3-A36B-DBD144B603C2}.Debug|x86.Build.0 = Debug|Any CPU
+		{AAA0A2B8-C020-46A3-A36B-DBD144B603C2}.Release|x86.ActiveCfg = Release|Any CPU
+		{AAA0A2B8-C020-46A3-A36B-DBD144B603C2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = SoBBS\SoBBS.csproj
