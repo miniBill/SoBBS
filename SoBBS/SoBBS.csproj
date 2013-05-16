@@ -80,7 +80,7 @@
     <Compile Include="Functional\Data\Maybe\IMaybe.cs" />
     <Compile Include="Cui\Interfaces\IApplication.cs" />
     <Compile Include="Cui\Widgets\Sizer.cs" />
-    <Compile Include="Cui\Widgets\Application.cs" />
+    <Compile Include="Cui\Application.cs" />
     <Compile Include="Cui\Widgets\Container.cs" />
     <Compile Include="Cui\Widgets\Frame.cs" />
     <Compile Include="Cui\Widgets\Widget.cs" />
