@@ -1,12 +1,17 @@
 using Sobbs.Config.Sizes;
 using Sobbs.Cui.Interfaces;
 using MinCurses;
+using Sobbs.Cui.Widgets;
 
-namespace Sobbs.Cui.Widgets
+namespace Sobbs.Cui
 {
     public class Application : IApplication
     {
-        public IContainer MainContainer { get; private set; }
+        public IContainer MainContainer
+        {
+            get;
+            private set;
+        }
 
         public void Refresh()
         {

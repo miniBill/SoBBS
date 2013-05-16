@@ -3,6 +3,7 @@ using System.Threading;
 using Sobbs.Config.Windows;
 using System.IO;
 using System.Linq;
+using Sobbs.Cui;
 using Sobbs.Cui.Interfaces;
 using Sobbs.Functional;
 using Sobbs.Loop;

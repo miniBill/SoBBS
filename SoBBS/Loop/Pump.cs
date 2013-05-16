@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
+// ReSharper disable CheckNamespace
 namespace System.Threading.Tasks.Schedulers
+// ReSharper restore CheckNamespace
 {
     /// <summary> 
     /// Provides a task scheduler that ensures a maximum concurrency level while 

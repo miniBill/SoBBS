@@ -2,96 +2,102 @@ using System;
 
 namespace MinCurses
 {
-    public enum Colors:short{
-        BLACK,
-        RED,
-        BLUE,
-        GREEN,CYAN,YELLOW,WHITE,MAGENTA
-    }
-
     public static class Curses
     {
         static void InitScr()
         {
-            throw new NotImplementedException();
+            StdScr = Native.initscr();
         }
 
-        static bool Blocking
+        private static IntPtr StdScr
         {
-            get{ throw new NotImplementedException();}
-            set{ throw new NotImplementedException();}
+            get;
+            set;
         }
 
         static bool Echo
         {
-            get{ throw new NotImplementedException();}
-            set{ throw new NotImplementedException();}
+            set
+            {
+                if (value)
+                {
+                    Native.echo();
+                }
+                else
+                {
+                    Native.noecho();
+                }
+            }
         }
 
-        static int CursorVisibility
+        static Visibility CursorVisibility
         {
-            get{ throw new NotImplementedException();}
-            set{ throw new NotImplementedException();}
+            set
+            {
+                Native.curs_set((int)value);
+            }
         }
 
         static bool HasColors
         {
-            get{ throw new NotImplementedException();}
-            set{ throw new NotImplementedException();}
+            get
+            {
+                return Native.has_colors();
+            }
         }
 
-        static void Erase()
+        public static void Erase()
         {
-            throw new NotImplementedException();
+            Native.erase();
         }
 
-        static void Refresh()
+        public static void Refresh()
         {
-            throw new NotImplementedException();
+            Native.refresh();
         }
 
-        static void EndWin()
+        public static void EndWin()
         {
-            throw new NotImplementedException();
+            Native.endwin();
         }
 
         static void StartColor()
         {
-            throw new NotImplementedException();
+            Native.start_color();
         }
 
-        static void InitPair(short i, Colors colors, Colors bLACK)
+        static void InitPair(short index, Color fg, Color bg)
         {
-            throw new NotImplementedException();
+            Native.init_pair(index, (short)fg, (short)bg);
         }
 
         public static void Init()
         {
             InitScr();
 
-            Colors[] colorTable = { 0, Colors.RED, Colors.BLUE, Colors.GREEN, Colors.CYAN, Colors.RED,
-                Colors.MAGENTA, Colors.YELLOW, Colors.WHITE };
+            Color[] colorsTable = { 0, Color.Red, Color.Blue, Color.Green, Color.Cyan, Color.Red,
+                Color.Magenta, Color.Yellow, Color.White };
 
-            Blocking = false;
+            CBreak = true;
             Echo = false;
             CursorVisibility = 0;
 
             if (!HasColors) return;
             StartColor();
             for (short i = 1; i < 8; ++i)
-                InitPair(i, colorTable[i], Colors.BLACK);
+                InitPair(i, colorsTable[i], Color.Black);
         }
 
-        public static char GetChar()
+        public static int GetChar()
         {
-            throw new NotImplementedException();
+            return Native.wgetch(StdScr);
         }
 
-     public  static int Lines
+        public static int Lines
         {
             get
             {
-                throw new NotImplementedException();
+                return Console.WindowHeight;
             }
         }
 
@@ -99,18 +105,18 @@ namespace MinCurses
         {
             get
             {
-                throw new NotImplementedException();
+                return Console.WindowWidth;
             }
         }
 
         static void Insert(int y, int x, uint c)
         {
-            throw new NotImplementedException();
+            Native.mvinsch(y, x, c);
         }
 
         static void Add(int y, int x, uint c)
         {
-            throw new NotImplementedException();
+            Native.mvaddch(y, x, c);
         }
 
         private static void Put(int y, int x, uint c)
@@ -119,22 +125,15 @@ namespace MinCurses
                 throw new ArgumentOutOfRangeException("y", "y (" + y + " is out of range: [0, " + Lines + "[");
             if (x < 0 || x >= Cols)
                 throw new ArgumentOutOfRangeException("x", "x (" + x + " is out of range: [0, " + Cols + "[");
-            try
-            {
-                if (y == Lines - 1 /*&& x == Cols - 1*/)
-                    Insert(y, x, c);
-                else
-                    Add(y, x, c);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(":( ", e);
-            }
+            if (y == Lines - 1)
+                Insert(y, x, c);
+            else
+                Add(y, x, c);
         }
 
         public static void Put(int y, int x, string value)
         {
-            for(int xi = x; xi < Cols && (xi - x) < value.Length; xi++)
+            for (int xi = x; xi < Cols && (xi - x) < value.Length; xi++)
                 Put(y, xi, value[xi - x]);
         }
 
@@ -150,18 +149,18 @@ namespace MinCurses
         {
             for (int x = x1 + 1; x < x2; x++)
             {
-                Curses.Put(y1, x, h);
-                Curses.Put(y2, x, h);
+                Put(y1, x, h);
+                Put(y2, x, h);
             }
             for (int y = y1 + 1; y < y2; y++)
             {
-                Curses.Put(y, x1, v);
-                Curses.Put(y, x2, v);
+                Put(y, x1, v);
+                Put(y, x2, v);
             }
-            Curses.Put(y1, x1, tl);
-            Curses.Put(y1, x2, tr);
-            Curses.Put(y2, x1, bl);
-            Curses.Put(y2, x2, br);
+            Put(y1, x1, tl);
+            Put(y1, x2, tr);
+            Put(y2, x1, bl);
+            Put(y2, x2, br);
         }
 
         private const uint DoubleH = 0x2550u;
@@ -177,6 +176,28 @@ namespace MinCurses
         private const uint Tr = 0x2510u;
         private const uint Bl = 0x2514u;
         private const uint Br = 0x2518u;
+
+        private static bool CBreak
+        {
+            set
+            {
+                if (value)
+                {
+                    Native.cbreak();
+                }
+                else
+                {
+                    Native.nocbreak();
+                }
+            }
+        }
+    }
+
+    enum Visibility
+    {
+        Invisible,
+        Normal,
+        Evident
     }
 }
 
