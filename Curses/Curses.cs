@@ -111,12 +111,12 @@ namespace MinCurses
 
         static void Insert(int y, int x, uint c)
         {
-            Native.wrap_mvinsch(y, x, c);
+            Native.mvinsch(y, x, c);
         }
 
         static void Add(int y, int x, uint c)
         {
-            Native.wrap_mvaddch(y, x, c);
+            Native.mvaddch(y, x, c);
         }
 
         private static void Put(int y, int x, uint c)
@@ -170,12 +170,12 @@ namespace MinCurses
         private const uint DoubleBl = 0x255Au;
         private const uint DoubleBr = 0x255Du;
 
-        private const uint H = 0x2500u;
-        private const uint V = 0x2502u;
+        private const uint H = (uint)'-';//0x2500u;
+        private const uint V = (uint)'|';//0x2502u;
         private const uint Tl = 0x250Cu;
-        private const uint Tr = 0x2510u;
-        private const uint Bl = 0x2514u;
-        private const uint Br = 0x2518u;
+        private const uint Tr = (uint)'*';//0x2510u;
+        private const uint Bl = (uint)'*';//0x2514u;
+        private const uint Br = (uint)'*';//0x2518u;
 
         private static bool CBreak
         {

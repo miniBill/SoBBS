@@ -1,4 +1,8 @@
 all: libWrapper.so
 
+.PHONY: clean
+clean:
+	rm libWrapper.so
+
 lib%.so: %.cpp
-	cc -fPIC -o $@ -shared $^
+	cc -lncurses -fPIC -o $@ -shared $^

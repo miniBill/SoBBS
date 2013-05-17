@@ -20,11 +20,11 @@ namespace MinCurses
         [DllImport("pdcurses", CallingConvention = CallingConvention.Cdecl)]
         public static extern int endwin();
 
-        [DllImport("Wrapper", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int wrap_mvinsch(int y, int x, uint character);
+        [DllImport("pdcurses", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int mvinsch(int y, int x, uint character);
 
-        [DllImport("Wrapper", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int wrap_mvaddch(int y, int x, uint character);
+        [DllImport("pdcurses", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int mvaddch(int y, int x, uint character);
 
         [DllImport("pdcurses", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool has_colors();
