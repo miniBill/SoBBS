@@ -49,5 +49,11 @@ namespace MinCurses
 
         [DllImport("pdcurses", CallingConvention = CallingConvention.Cdecl)]
         public static extern int erase();
+
+        [DllImport("Wrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int get_lines();
+
+        [DllImport("Wrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int get_cols();
     }
 }

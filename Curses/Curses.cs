@@ -97,7 +97,7 @@ namespace MinCurses
         {
             get
             {
-                return Console.WindowHeight;
+                return Native.get_lines();
             }
         }
 
@@ -105,7 +105,7 @@ namespace MinCurses
         {
             get
             {
-                return Console.WindowWidth;
+                return Native.get_cols();
             }
         }
 
