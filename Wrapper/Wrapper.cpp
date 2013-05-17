@@ -2,12 +2,19 @@
 
 extern "C"
 {
-	PDCEX int get_lines()
+
+#ifdef __linux__
+#define EXT extern
+#else
+#define EXT _declspec(dllexport)
+#endif
+
+	EXT int get_lines()
 	{
 		return LINES;
 	}
 
-	PDCEX int get_cols()
+	EXT int get_cols()
 	{
 		return COLS;
 	}
