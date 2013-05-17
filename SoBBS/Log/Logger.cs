@@ -10,7 +10,7 @@ namespace Sobbs.Log
 
         static Logger()
         {
-            //Providers.Add(new TcpClientLog(33123));
+            Providers.Add(new TcpClientLog(33123));
             Providers.Add(new TraceLog());
         }
 
