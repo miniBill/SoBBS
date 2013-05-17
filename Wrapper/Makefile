@@ -5,4 +5,4 @@ clean:
 	rm libWrapper.so
 
 lib%.so: %.cpp
-	cc -lncurses -fPIC -o $@ -shared $^
+	g++ -lncursesw -fPIC -o $@ -shared $^

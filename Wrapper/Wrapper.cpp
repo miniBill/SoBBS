@@ -1,12 +1,14 @@
 extern "C"
 {
-#include "curses.h"
-
 #ifdef __linux__
+#include <ncursesw/curses.h>
 #define EXT extern
 #else
+#include "curses.h"
 #define EXT _declspec(dllexport)
 #endif
+#include <stdio.h>
+#include <locale.h>
 
 	EXT int get_lines()
 	{
@@ -16,5 +18,27 @@ extern "C"
 	EXT int get_cols()
 	{
 		return COLS;
+	}
+
+	cchar_t convert(unsigned int ch)
+	{
+		cchar_t toret;
+		wchar_t container[2];
+		container[0] = ch;
+		container[1] = 0;
+		setcchar(&toret, container, 0, COLOR_PAIR(0), NULL);
+		return toret;
+	}
+
+	EXT int mvaddwch(int y, int x, unsigned int ch)
+	{
+		cchar_t toprint = convert(ch);
+		return mvadd_wch(y, x, &toprint);
+	}
+
+	EXT int mvinswch(int y, int x, unsigned int ch)
+	{
+		cchar_t toprint = convert(ch);
+		return mvins_wch(y, x, &toprint);
 	}
 }
