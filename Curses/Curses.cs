@@ -111,12 +111,12 @@ namespace MinCurses
 
         static void Insert(int y, int x, uint c)
         {
-            Native.mvinsch(y, x, c);
+            Native.wrap_mvinsch(y, x, c);
         }
 
         static void Add(int y, int x, uint c)
         {
-            Native.mvaddch(y, x, c);
+            Native.wrap_mvaddch(y, x, c);
         }
 
         private static void Put(int y, int x, uint c)
