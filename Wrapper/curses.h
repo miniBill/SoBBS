@@ -332,14 +332,18 @@ typedef struct
  *
  */
 
-#ifdef PDC_DLL_BUILD
-# ifdef CURSES_LIBRARY
-#  define PDCEX __declspec(dllexport) extern
-# else
-#  define PDCEX __declspec(dllimport)
-# endif
-#else
+#ifdef __linux__
 # define PDCEX extern
+#else
+# ifdef PDC_DLL_BUILD
+#  ifdef CURSES_LIBRARY
+#   define PDCEX __declspec(dllexport) extern
+#  else
+#   define PDCEX __declspec(dllimport)
+#  endif
+# else
+#  define PDCEX extern
+# endif
 #endif
 
 PDCEX  int          LINES;        /* terminal height */

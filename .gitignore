@@ -3,5 +3,5 @@ sobbs.userprefs
 obj
 /Debug
 /Wrapper/Debug
-
 /Wrapper/*.user
+/Wrapper/libWrapper.so

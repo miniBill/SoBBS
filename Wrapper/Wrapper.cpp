@@ -2,12 +2,12 @@
 
 extern "C"
 {
-	_declspec(dllexport) int get_lines()
+	PDCEX int get_lines()
 	{
 		return LINES;
 	}
 
-	_declspec(dllexport) int get_cols()
+	PDCEX int get_cols()
 	{
 		return COLS;
 	}
