@@ -30,7 +30,7 @@ namespace Sobbs
             set;
         }
 
-        public void Enqueue(Action action)
+        private void Enqueue(Action action)
         {
             _queue.Enqueue(action);
         }

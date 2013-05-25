@@ -21,10 +21,10 @@ namespace MinCurses
         public static extern int endwin();
 
         [DllImport("Wrapper", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int mvinswch(int y, int x, uint character);
+        public static extern int mvinswch(int y, int x, uint character, short colorPair);
 
         [DllImport("Wrapper", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int mvaddwch(int y, int x, uint character);
+        public static extern int mvaddwch(int y, int x, uint character, short colorPair);
 
         [DllImport("pdcurses", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool has_colors();
@@ -55,5 +55,17 @@ namespace MinCurses
 
         [DllImport("Wrapper", CallingConvention = CallingConvention.Cdecl)]
         public static extern int get_cols();
+
+        [DllImport("Wrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int get_colors();
+
+        [DllImport("Wrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int get_color_pairs();
+
+        [DllImport("pdcurses", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int attron(uint attribute);
+
+        [DllImport("Wrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern uint color_pair(short index);
     }
 }

@@ -17,7 +17,7 @@ namespace Sobbs.Cui.Widgets
         protected override void RefreshContainer(int x, int y, int width, int height)
         {
             Curses.DrawFrame(x, y, x + width - 1, y + height - 1);
-            Curses.Put(y,x+1, " " + Title + " ");
+            Curses.Put(y, x + 1, " " + Title + " ", Color.Yellow);
         }
     }
 }

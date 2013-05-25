@@ -34,7 +34,7 @@ namespace Sobbs
                 var creator = ((Action<WindowConfig, IApplication>)CreateWindow).Curry(application);
                 maybeZones.Concat(maybeThreads).Concat(maybeMessages).ForEach(creator);
 
-                loop.Enqueue(application.Refresh);
+                loop.EnqueueLoop(application.Refresh);
 
                 loop.EnqueueCancelableLoop(() =>
                     {

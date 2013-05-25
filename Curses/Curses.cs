@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace MinCurses
 {
@@ -75,17 +76,13 @@ namespace MinCurses
         {
             InitScr();
 
-            Color[] colorsTable = { 0, Color.Red, Color.Blue, Color.Green, Color.Cyan, Color.Red,
-                Color.Magenta, Color.Yellow, Color.White };
-
             CBreak = true;
             Echo = false;
             CursorVisibility = 0;
 
             if (!HasColors) return;
             StartColor();
-            for (short i = 1; i < 8; ++i)
-                InitPair(i, colorsTable[i], Color.Black);
+            ColorPairs.Add(GetColorKey(Color.White, Color.Black), 0);
         }
 
         public static int GetChar()
@@ -111,12 +108,12 @@ namespace MinCurses
 
         static void Insert(int y, int x, uint c)
         {
-            Native.mvinswch(y, x, c);
+            Native.mvinswch(y, x, c, _currentColors);
         }
 
         static void Add(int y, int x, uint c)
         {
-            Native.mvaddwch(y, x, c);
+            Native.mvaddwch(y, x, c, _currentColors);
         }
 
         private static void Put(int y, int x, uint c)
@@ -131,10 +128,38 @@ namespace MinCurses
                 Add(y, x, c);
         }
 
-        public static void Put(int y, int x, string value)
+        public static void Put(int y, int x, string value, Color foreground = Color.White, Color background = Color.Black)
         {
-            for (int xi = x; xi < Cols && (xi - x) < value.Length; xi++)
-                Put(y, xi, value[xi - x]);
+            SetColors(foreground, background);
+            for (int xi = 0; xi + x < Cols && xi < value.Length; xi++)
+                Put(y, xi + x, value[xi]);
+            SetDefaultColors();
+        }
+
+        private static readonly Dictionary<int, short> ColorPairs = new Dictionary<int, short>();
+        private static short _currentColors;
+
+        private static void SetDefaultColors()
+        {
+            SetColors(Color.White, Color.Black);
+        }
+
+        private static void SetColors(Color foreground, Color background)
+        {
+            var key = GetColorKey(foreground, background);
+            if (ColorPairs.ContainsKey(key))
+                _currentColors = ColorPairs[key];
+            else
+            {
+                _currentColors = (short)ColorPairs.Count;
+                ColorPairs.Add(key, _currentColors);
+                InitPair(_currentColors, foreground, background);
+            }
+        }
+
+        private static int GetColorKey(Color foreground, Color background)
+        {
+            return (short)foreground << 16 + (short)background;
         }
 
         public static void DrawFrame(int x1, int y1, int x2, int y2, bool @double = false)
@@ -191,13 +216,6 @@ namespace MinCurses
                 }
             }
         }
-    }
-
-    enum Visibility
-    {
-        Invisible,
-        Normal,
-        Evident
     }
 }
 

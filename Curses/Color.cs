@@ -4,11 +4,11 @@ namespace MinCurses
     {
         Black,
         Red,
-        Blue,
         Green,
-        Cyan,
         Yellow,
-        White,
-        Magenta
+        Blue,
+        Magenta,
+        Cyan,
+        White
     }
 }
